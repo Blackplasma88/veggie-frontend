@@ -12,6 +12,7 @@
       <tbody>
         <tr v-for="(item, index) in list" :key="index" scope="row">
           <td>{{ index+1 }}</td>
+          <button @click="checkInfo(item.id)">Info</button>
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
           <td>{{ item.inventories }}</td>
@@ -52,6 +53,9 @@ export default {
     addInCard(index){
       this.price += this.list[index].price
       this.v[index] += 1
+    },
+    checkInfo(id){
+      this.$router.push({name : 'Information',params:{ id }})
     }
   }
 };

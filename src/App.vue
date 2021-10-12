@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">List Vehetables</router-link> |
+      <!-- <router-link to="/item/:d">Vegetable Info</router-link> | -->
     </div>
     <router-view/>
   </div>
