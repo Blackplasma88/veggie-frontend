@@ -28,11 +28,11 @@ export default new Vuex.Store({
     // }
   },
   actions: {
-    // async fetchData({ commit }) {
-    //   // let headers = AuthService.getApiHeader()
-    //   let res = await Axios.get(api_endpoint + "/api/items")
-    //   commit('fetch', { res })
-    // },
+    async fetchData({ commit }) {
+      // let headers = AuthService.getApiHeader()
+      let res = await Axios.get(api_endpoint + "/api/orders")
+      commit('fetch', { res })
+    },
     async addData({ commit }, payload) {
       let url = api_endpoint + "/api/orders"
       let body = { 

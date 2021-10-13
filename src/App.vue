@@ -2,8 +2,9 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">List Vehetables</router-link>  
+      <router-link to="/orders">Order Status</router-link>  
       <router-link to="/">Food menu</router-link>
-      <router-link to="/">My</router-link>
+      <router-link to="/profile">My</router-link>
     </div>
     <router-view/>
   </div>
