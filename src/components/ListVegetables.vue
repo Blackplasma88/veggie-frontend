@@ -38,11 +38,11 @@
           <td>{{ this.item[0].name }}</td>
           <td>{{ this.item[0].price }}</td>
           <td>{{ this.item[0].inventories }}</td>
-          <!-- <td>
-            <button id="btn" @click="decreaseInCart()">-</button>
-            <input type="number" v-model="v[0]">
-            <button id="btn1" @click="addInCard()">+</button>
-          </td> -->
+          <td>
+            <button id="btn" @click="decreaseInCart(index)">-</button>
+            <input type="number" v-model="v[index]">
+            <button id="btn1" @click="addInCard(index)">+</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -67,7 +67,8 @@ export default {
       price:0,
       search: '',
       status: 0,
-      item: ''
+      item: '',
+      index: 0
     }
   },
   async created(){
@@ -133,6 +134,13 @@ export default {
       this.status = 1
       let res = await ItemService.searchName(this.search)
       this.item = res
+      for(let i = 0; i< this.list.length; i++){
+        if(this.list[i].name === this.item[0].name){
+          this.index = i
+          break
+        }
+      }
+      console.log(this.index)
     },
     closeSearch(){
       this.status = 0
