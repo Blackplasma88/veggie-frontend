@@ -11,7 +11,7 @@
         <th scope="col">ดำเนินการ</th>
       </thead>
       <tbody>
-        <tr v-for="(order, index) in list" :key="index">
+        <tr v-for="(order, index) in list" :key="index" scope="row">
             <td>{{ index+1 }}</td>
             <td>{{ order.user_id }}</td>
             <td>{{ order.data }}</td>
@@ -24,6 +24,7 @@
         </tr>
       </tbody>
     </table>
+    <b-button variant="success">ชำระเงินทั้งหมด</b-button>
   </div>
 </template>
 
@@ -39,7 +40,7 @@ export default {
     await OrderApi.dispatch("fetchData");
     let tmp = OrderApi.getters.data.data;
     for(let i in tmp){
-      if(tmp[i].status !== "รอชำระเงิน"){
+      if(tmp[i].status === "รอชำระเงิน"){
         this.list.push(tmp[i])
       }
     }

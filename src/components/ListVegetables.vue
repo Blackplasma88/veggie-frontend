@@ -20,6 +20,7 @@
           <td>
             <input type="number" v-model="v[index]">
             <button @click="addInCard(index)">+</button>
+            <button >-</button>
           </td>
         </tr>
       </tbody>
