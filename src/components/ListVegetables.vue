@@ -7,7 +7,7 @@
         <th scope="col">ดูข้อมูล</th>
         <th scope="col">ชื่อผัก</th>
         <th scope="col">ราคา / ขีด</th>
-        <th scope="col">จำนวนคงเหลือทั้งหมด</th>
+        <th scope="col">จำนวนคงเหลือทั้งหมด (ขีด)</th>
         <th scope="col">จำนวนที่ซื้อ</th>
       </thead>
       <tbody>
@@ -68,6 +68,7 @@ export default {
         amount: this.price,
         status: "รอชำระเงิน"
       }
+      console.log(tmp)
       let res = await OrderApi.dispatch('addData',payload)
       
       // update data in item table

@@ -93,6 +93,15 @@ export default new Vuex.Store({
        } else {
          console.error(res)
        }
+    },
+    async deleteOrder({commit},payload){
+      let url = api_endpoint + '/api/orders/' + payload
+      let res = await Axios.delete(url)
+      if(res.status === 200){
+        return {
+          success: true
+        }
+      }
     }
   },
 //   modules: {
