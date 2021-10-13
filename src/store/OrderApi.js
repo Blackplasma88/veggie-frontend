@@ -28,21 +28,22 @@ export default new Vuex.Store({
     // }
   },
   actions: {
-    async fetchData({ commit }) {
-      // let headers = AuthService.getApiHeader()
-      let res = await Axios.get(api_endpoint + "/api/items")
-      commit('fetch', { res })
-    },
-    // async addData({ commit }, payload) {
-    //   let url = api_endpoint + "/rewards"
-    //   let body = {
-    //     item: payload.item,
-    //     points: payload.points,
-    //     amounts: payload.amounts
-    //   }
+    // async fetchData({ commit }) {
+    //   // let headers = AuthService.getApiHeader()
+    //   let res = await Axios.get(api_endpoint + "/api/items")
+    //   commit('fetch', { res })
+    // },
+    async addData({ commit }, payload) {
+      let url = api_endpoint + "/api/orders"
+      let body = { 
+        user_id: payload.user_id,
+        data: payload.text,
+        amount: payload.amount,
+        status: payload.status,
+      }
     //   try {
-    //     let headers = AuthService.getApiHeader()
-    //     let res = await Axios.post(url, body, headers)
+        // let headers = AuthService.getApiHeader()
+        let res = await Axios.post(url, body)
     //     if (res.status === 200) {
     //       commit('add', res.data)
     //       return {
@@ -70,24 +71,26 @@ export default new Vuex.Store({
     //       }
     //     }
     //   }
-    // },
+    },
     async editData({ commit }, payload) {
-      let url = api_endpoint + "/rewards/" + payload.id
+      let url = api_endpoint + "/api/items/" + payload.id
       let body = {
-        item: payload.item,
-        points: payload.points,
-        amounts: payload.amounts
+        id: payload.id,
+        name: payload.name,
+        price: payload.price,
+        inventories: payload.inventories,
+        total_sales: payload.total_sales
       }
-      let headers = AuthService.getApiHeader()
-      let res = await Axios.put(url, body, headers) // edit data in DB โดยการ put ผ่าน url & body
-      if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
-        // commit('edit',payload.index,res.data)
-        // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
-      } else {
-        console.error(res)
-      }
+    //   let headers = AuthService.getApiHeader()
+      let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
+    //   if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
+    //     // commit('edit',payload.index,res.data)
+    //     // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
+    //   } else {
+    //     console.error(res)
+    //   }
     }
   },
-  modules: {
-  }
+//   modules: {
+//   }
 })

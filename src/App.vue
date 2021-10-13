@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">List Vehetables</router-link> |
-      <!-- <router-link to="/item/:d">Vegetable Info</router-link> | -->
+      <router-link to="/">List Vehetables</router-link>  
+      <router-link to="/">Food menu</router-link>
+      <router-link to="/">My</router-link>
     </div>
     <router-view/>
   </div>
@@ -19,13 +20,17 @@
 
 #nav {
   padding: 30px;
+  background-color: #2b9fe2;
 
   a {
     font-weight: bold;
     color: #2c3e50;
 
     &.router-link-exact-active {
-      color: #42b983;
+      text-decoration: none;
+      border: 1px solid;
+      padding: 10px;
+      margin: 0px 10px;
     }
   }
 }

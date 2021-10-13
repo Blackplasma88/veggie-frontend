@@ -4,10 +4,11 @@
     <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Price</th>
-        <th scope="col">Inventories</th>
-        <th scope="col">amount</th>
+        <th scope="col">ดูข้อมูล</th>
+        <th scope="col">ชื่อผัก</th>
+        <th scope="col">ราคา / ขีด</th>
+        <th scope="col">จำนวนคงเหลือทั้งหมด</th>
+        <th scope="col">จำนวนที่ซื้อ / ขีด</th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in list" :key="index" scope="row">
@@ -23,14 +24,18 @@
         </tr>
       </tbody>
     </table>
-    <label class="price" for="price" >ราคารวม : {{ price }}</label>
-    <b-button>Card</b-button>
-    <b-button @click="buy()">Buy</b-button>
+    <div class="sumary">
+      <label for="price" class="summary-1">ราคารวม : {{ price }} บาท</label>
+      <b-button class="summary-1">Card</b-button>
+      <b-button class="summary-1" @click="buy()">Buy</b-button>
+    </div>
   </div>
 </template>
 
 <script>
 import ItemApi from '@/store/ItemApi'
+import OrderApi from '@/store/OrderApi'
+
 export default {
   data(){
     return{
@@ -47,8 +52,45 @@ export default {
     }
   },
   methods:{
-    buy(){
+    async buy(){
+      // add item to order table
+      let tmp = []
+      for(let i=0;i < this.v.length;i++){
+        if(this.v[i] !== 0){
+          let data = this.list[i].name + " : " + this.v[i] + " ขีด"
+          tmp.push(data)
+        }
+      }
+      let payload = {
+        user_id: 1,
+        text: tmp.join(),
+        amount: this.price,
+        status: "รอชำระเงิน"
+      }
+      // let res = await OrderApi.dispatch('addData',payload)
       
+      // update data in item table
+      let value = []
+      for(let i=0;i < this.v.length;i++){
+        if(this.v[i] !== 0){
+          let data = {
+            id: this.list[i].id,
+            val:this.v[i]
+          }
+          value.push(data)
+        }
+      }
+      for(let i=0;i < value.length;i++){
+        payload = {
+          id: value[i].id,
+          name: this.list[value[i].id - 1].name,
+          price: this.list[value[i].id - 1].price,
+          inventories: this.list[value[i].id - 1].inventories - value[i].val,
+          total_sales: this.list[value[i].id - 1].total_sales + value[i].val
+        }
+        let res = await OrderApi.dispatch('editData',payload)
+      }
+
     },
     addInCard(index){
       this.price += this.list[index].price
@@ -62,4 +104,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.sumary{
+  display: flex;
+  justify-content:right;
+  align-items: center;
+  margin-right: 10px;
+}
+</style>
