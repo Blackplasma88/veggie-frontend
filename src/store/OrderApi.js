@@ -85,7 +85,6 @@ export default new Vuex.Store({
         inventories: payload.inventories,
         total_sales: payload.total_sales
       }
-      // let headers = AuthService.getApiHeader()
       let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
        if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
         commit('edit',payload.index,res.data)

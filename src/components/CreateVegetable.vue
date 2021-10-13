@@ -12,9 +12,9 @@
             <div>
                 <br><br>
                 <label for="inventories">Inventories: </label>
-                <input type="number" v-model="form.inventories" min="0.25">
+                <input type="number" v-model="form.inventories" min="1">
                 <label for="price">Price: </label>
-                <input type="number" v-model="form.price" min="0.25">
+                <input type="number" v-model="form.price" min="1">
             </div>
 
             <br><br>
