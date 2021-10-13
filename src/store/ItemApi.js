@@ -4,7 +4,8 @@ import Axios from 'axios'
 
 Vue.use(Vuex)
 
-const api_endpoint = "http://localhost:8000"
+// const api_endpoint = "http://localhost:8000"
+const api_endpoint = "http://127.0.0.1:8000"
 
 export default new Vuex.Store({
   state: {
@@ -33,8 +34,24 @@ export default new Vuex.Store({
       let res = await Axios.get(api_endpoint + "/api/items")
       commit('fetch', { res })
     },
+    async addVeggie({commit},payload){
+      let url = api_endpoint + '/api/items'
+      let body = {
+        name: payload.name,
+        inventories: payload.inventories,
+        price: payload.price,
+        total_sales: payload.total_sales
+      }
+      let res = await Axios.post(url, body)
+      if(res.status === 200){
+        commit('add',payload)
+        return{
+          success: true
+        }
+      }
+    },
     // async addData({ commit }, payload) {
-    //   let url = api_endpoint + "/rewards"
+    //   let url = api_endpoint + "/api/items"
     //   let body = {
     //     item: payload.item,
     //     points: payload.points,

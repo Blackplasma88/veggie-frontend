@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Info from '../views/Info.vue'
 import ListOrder from '../views/OrderStatus.vue'
 import Profile from '../views/Profile.vue'
+import CreateVeggie from '../views/CreateVeggie.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile
+  },
+  {
+    path: '/vegetable/create',
+    name: 'CreateVeggie',
+    component: CreateVeggie
   },
 ]
 

@@ -8,7 +8,7 @@
         <th scope="col">ชื่อผัก</th>
         <th scope="col">ราคา / ขีด</th>
         <th scope="col">จำนวนคงเหลือทั้งหมด</th>
-        <th scope="col">จำนวนที่ซื้อ / ขีด</th>
+        <th scope="col">จำนวนที่ซื้อ</th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in list" :key="index" scope="row">
@@ -18,8 +18,9 @@
           <td>{{ item.price }}</td>
           <td>{{ item.inventories }}</td>
           <td>
+            <button id="btn" @click="decreaseInCart(index)">-</button>
             <input type="number" v-model="v[index]">
-            <button @click="addInCard(index)">+</button>
+            <button id="btn1" @click="addInCard(index)">+</button>
           </td>
         </tr>
       </tbody>
@@ -67,7 +68,7 @@ export default {
         amount: this.price,
         status: "รอชำระเงิน"
       }
-      // let res = await OrderApi.dispatch('addData',payload)
+      let res = await OrderApi.dispatch('addData',payload)
       
       // update data in item table
       let value = []
@@ -90,11 +91,15 @@ export default {
         }
         let res = await OrderApi.dispatch('editData',payload)
       }
-
+      location.reload()
     },
     addInCard(index){
-      this.price += this.list[index].price
-      this.v[index] += 1
+        this.price += this.list[index].price
+        this.v[index] += 1
+    },
+    decreaseInCart(index){
+        this.price -= this.list[index].price
+        this.v[index] -= 1
     },
     checkInfo(id){
       this.$router.push({name : 'Information',params:{ id }})
