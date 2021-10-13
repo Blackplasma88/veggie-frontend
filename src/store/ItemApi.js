@@ -21,6 +21,9 @@ export default new Vuex.Store({
     add(state, payload) {
       state.data.push(payload)
     },
+    // delete(state,payload){
+    //   state.data.splice(payload,1)
+    // }
     // edit(state,index,data){ 
     //   state.data[index].name = data.name 
     //   state.data[index].name_jp = data.name_jp
@@ -46,6 +49,17 @@ export default new Vuex.Store({
       if(res.status === 200){
         commit('add',payload)
         return{
+          success: true
+        }
+      }
+    },
+    async deleteVeggie({commit},payload){
+      let url = api_endpoint + '/api/items/'+ payload
+      let res = await Axios.delete(url)
+      if(res.status === 200){
+        // commit("delete",payload)
+        console.log('delete complete')
+        return {
           success: true
         }
       }
