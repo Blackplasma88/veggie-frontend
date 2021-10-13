@@ -10,5 +10,9 @@ export default{
         }catch(e){
 
         }
+    },
+    async searchName(name){
+        let res = await Axios.get(`${api_endpoint}/api/search/${name}`)
+        return res.data
     }
 }

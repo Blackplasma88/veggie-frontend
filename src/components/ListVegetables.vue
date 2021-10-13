@@ -1,6 +1,10 @@
 <template>
   <div>
-    List Vegetables
+    <br><br>
+    <input v-model="search" type="text" placeholder="search">
+    <button v-if="status === 0" @click="searchName()">Search</button>
+    <button v-if="status === 1" @click="closeSearch()">Cancel</button>
+    <br><br>List Vegetables<br><br>
     <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
@@ -10,7 +14,8 @@
         <th scope="col">จำนวนคงเหลือทั้งหมด (ขีด)</th>
         <th scope="col">จำนวนที่ซื้อ</th>
       </thead>
-      <tbody>
+      <!-- don't search -->
+      <tbody v-if="status === 0">
         <tr v-for="(item, index) in list" :key="index" scope="row">
           <td>{{ index+1 }}</td>
           <button @click="checkInfo(item.id)">Info</button>
@@ -22,6 +27,22 @@
             <input type="number" v-model="v[index]">
             <button id="btn1" @click="addInCard(index)">+</button>
           </td>
+        </tr>
+      </tbody>
+
+      <!-- search -->
+      <tbody v-if="status === 1">
+        <tr scope="row">
+          <td>1</td>
+          <button @click="checkInfo(this.item[0].id)">Info</button>
+          <td>{{ this.item[0].name }}</td>
+          <td>{{ this.item[0].price }}</td>
+          <td>{{ this.item[0].inventories }}</td>
+          <!-- <td>
+            <button id="btn" @click="decreaseInCart()">-</button>
+            <input type="number" v-model="v[0]">
+            <button id="btn1" @click="addInCard()">+</button>
+          </td> -->
         </tr>
       </tbody>
     </table>
@@ -36,13 +57,17 @@
 <script>
 import ItemApi from '@/store/ItemApi'
 import OrderApi from '@/store/OrderApi'
+import ItemService from '../services/ItemService';
 
 export default {
   data(){
     return{
       list:[],
       v:[],
-      price:0
+      price:0,
+      search: '',
+      status: 0,
+      item: ''
     }
   },
   async created(){
@@ -68,8 +93,7 @@ export default {
         amount: this.price,
         status: "รอชำระเงิน"
       }
-      console.log(tmp)
-      let res = await OrderApi.dispatch('addData',payload)
+      await OrderApi.dispatch('addData',payload)
       
       // update data in item table
       let value = []
@@ -90,7 +114,7 @@ export default {
           inventories: this.list[value[i].id - 1].inventories - value[i].val,
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
-        let res = await OrderApi.dispatch('editData',payload)
+        await OrderApi.dispatch('editData',payload)
       }
       location.reload()
     },
@@ -104,6 +128,15 @@ export default {
     },
     checkInfo(id){
       this.$router.push({name : 'Information',params:{ id }})
+    },
+    async searchName(){
+      this.status = 1
+      let res = await ItemService.searchName(this.search)
+      this.item = res
+    },
+    closeSearch(){
+      this.status = 0
+      this.search = ''
     }
   }
 };
