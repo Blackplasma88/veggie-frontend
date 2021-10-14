@@ -3,9 +3,13 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Info from '../views/Info.vue'
 import Cart from '../views/Cart.vue'
+import Payment from '../views/Payment.vue'
 import ListOrder from '../views/OrderStatus.vue'
 import Profile from '../views/Profile.vue'
 import FoodMenu from '../views/FoodMenu.vue'
+import Login from '../views/authenticate/Login'
+import Logout from '../views/authenticate/Logout'
+import Register from '../views/authenticate/Register'
 
 Vue.use(VueRouter)
 
@@ -31,6 +35,11 @@ const routes = [
     component: Cart
   },
   {
+    path: '/payment',
+    name: 'Payment',
+    component: Payment
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: Profile
@@ -39,6 +48,21 @@ const routes = [
     path: '/menu',
     name: 'FoodMenu',
     component: FoodMenu
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
 ]
 

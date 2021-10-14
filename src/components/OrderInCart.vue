@@ -18,7 +18,7 @@
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button>ชำระเงิน</button>
+                <button @click="payment()">ชำระเงิน</button>
                 <button>ยกเลิก</button>
             </td>
         </tr>
@@ -46,8 +46,13 @@ export default {
     }
     // for (var i in this.list) {
     //   this.v.push(0);
+  },
+  methods:{
+    payment(){
+      this.$router.push({name : 'Payment'})
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

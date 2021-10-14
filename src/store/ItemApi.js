@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from 'axios'
+import AuthService from '@/services/AuthService'
 
 Vue.use(Vuex)
 
@@ -29,8 +30,8 @@ export default new Vuex.Store({
   },
   actions: {
     async fetchData({ commit }) {
-      // let headers = AuthService.getApiHeader()
-      let res = await Axios.get(api_endpoint + "/api/items")
+      let headers = AuthService.getApiHeader()
+      let res = await Axios.get(api_endpoint + "/api/items",headers)
       commit('fetch', { res })
     },
     // async addData({ commit }, payload) {

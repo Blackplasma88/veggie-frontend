@@ -8,7 +8,7 @@
         <th scope="col">ของที่ซื้อ</th>
         <th scope="col">ราคา / บาท</th>
         <th scope="col">สถานะ</th>
-        <th scope="col">ดำเนินการ</th>
+        <th scope="col">เช็คข้อมูล</th>
       </thead>
       <tbody>
         <tr v-for="(order, index) in list" :key="index">
@@ -18,8 +18,7 @@
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button>ชำระเงิน</button>
-                <button>ยกเลิก</button>
+                <button>ข้อมูล</button>
             </td>
         </tr>
       </tbody>

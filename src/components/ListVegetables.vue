@@ -86,7 +86,7 @@ export default {
           id: value[i].id,
           name: this.list[value[i].id - 1].name,
           price: this.list[value[i].id - 1].price,
-          inventories: this.list[value[i].id - 1].inventories - value[i].val,
+          inventories: this.list[value[i].id - 1].inventories - ( value[i].val * 100 ),
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
         let res = await OrderApi.dispatch('editData',payload)
