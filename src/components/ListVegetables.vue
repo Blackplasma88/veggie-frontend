@@ -32,24 +32,24 @@
 
       <!-- search -->
       <tbody v-if="status === 1">
-        <tr scope="row">
-          <td>1</td>
-          <button @click="checkInfo(item[0].id)">Info</button>
-          <td>{{ item[0].name }}</td>
-          <td>{{ item[0].price }}</td>
-          <td>{{ item[0].inventories }}</td>
+        <tr v-for="(it, index) in item" :key="index" scope="row">
+          <td>{{ index+1 }}</td>
+          <button @click="checkInfo(it.id)">Info</button>
+          <td>{{ it.name }}</td>
+          <td>{{ it.price }}</td>
+          <td>{{ it.inventories }}</td>
           <td>
-            <button id="btn" @click="decreaseInCart(index)">-</button>
-            <input type="number" v-model="v[index]">
-            <button id="btn1" @click="addInCard(index)">+</button>
+            <button id="btn" @click="decreaseInCart(listIndex[index],index)">-</button>
+            <input type="number" v-model="v[listIndex[index]]">
+            <button id="btn1" @click="addInCard(listIndex[index],index)">+</button>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="sumary">
       <label for="price" class="summary-1">ราคารวม : {{ price }} บาท</label>
-      <b-button class="summary-1">Card</b-button>
-      <b-button class="summary-1" @click="buy()">Buy</b-button>
+      <b-button class="summary-1" @click="buy(1)">Card</b-button>
+      <b-button class="summary-1" @click="buy(2)">Buy</b-button>
     </div>
   </div>
 </template>
@@ -63,11 +63,11 @@ export default {
     return{
       list:[],
       v:[],
+      item: [],
+      listIndex: [],
       price:0,
       search: '',
       status: 0,
-      item: '',
-      index: 0
     }
   },
   created(){
@@ -77,19 +77,17 @@ export default {
     async fetchData(){
       await ItemApi.dispatch('fetchData')
       this.list = ItemApi.getters.data.data
-      for(var i in this.list){
-      this.v.push(0)
-      } 
+      this.v = Array(this.list.length).fill(0) 
     },
     setData(){
-      this.v = []
+      this.v = Array(this.list.length).fill(0)
+      this.item = []
+      this.listIndex = []
       this.price = 0
       this.search = ''
       this.status = 0
-      this.item = ''
-      this.index = 0
     },
-    async buy(){
+    async buy(check){
       // add item to order table
       let tmp = []
       for(let i=0;i < this.v.length;i++){
@@ -102,7 +100,7 @@ export default {
         user_id: 1,
         text: tmp.join(),
         amount: this.price,
-        status: "รอชำระเงิน"
+        status: (check === 1) ? "รอชำระเงิน":'กำลังจัดส่ง'
       }
       await OrderApi.dispatch('addData',payload)
       
@@ -122,7 +120,7 @@ export default {
           id: value[i].id,
           name: this.list[value[i].id - 1].name,
           price: this.list[value[i].id - 1].price,
-          inventories: this.list[value[i].id - 1].inventories - value[i].val,
+          inventories: this.list[value[i].id - 1].inventories,
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
         await ItemApi.dispatch('editVeggie',payload)
@@ -131,11 +129,19 @@ export default {
       this.fetchData()
       this.setData()
     },
-    addInCard(index){
+    addInCard(index,index_1){
+        // update in item
+        this.item[index_1].inventories -= 1
+        // update in list
+        this.list[index].inventories -=1
         this.price += this.list[index].price
         this.v[index] += 1
     },
-    decreaseInCart(index){
+    decreaseInCart(index,index_1){
+      // update in item
+        this.item[index_1].inventories += 1
+        // update in list
+        this.list[index].inventories +=1
         this.price -= this.list[index].price
         this.v[index] -= 1
     },
@@ -143,18 +149,17 @@ export default {
       this.$router.push({name : 'Information',params:{ id }})
     },
     async searchName(){
+      this.listIndex = []
       this.status = 1
       let res = await ItemService.searchName(this.search)
       this.item = res
-      for(let i = 0; i< this.list.length; i++){
-        if(this.list[i].name === this.item[0].name){
-          this.index = i
-          break
-        }
+      for(let i = 0; i< this.item.length; i++){
+        let x = this.list.findIndex(x => x.name === this.item[i].name)
+        this.listIndex.push(x)
       }
-      console.log(this.index)
     },
     closeSearch(){
+      this.listIndex = []
       this.status = 0
       this.search = ''
     }
