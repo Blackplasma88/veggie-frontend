@@ -21,19 +21,15 @@ export default new Vuex.Store({
     add(state, payload) {
       state.data.push(payload)
     },
-    // delete(state,payload){
-    //   state.data.splice(payload,1)
-    // }
-    // edit(state,index,data){ 
-    //   state.data[index].name = data.name 
-    //   state.data[index].name_jp = data.name_jp
-    //   state.data[index].pokemos_types = data.pokemon_types 
-    //   state.data[index] = data
-    // }
+    edit(state,index,data){
+      state.data[index] = data
+    },
+    delete(state,payload){
+      state.data.splice(payload,1)
+    }
   },
   actions: {
     async fetchData({ commit }) {
-      // let headers = AuthService.getApiHeader()
       let res = await Axios.get(api_endpoint + "/api/items")
       commit('fetch', { res })
     },
@@ -52,6 +48,24 @@ export default new Vuex.Store({
           success: true
         }
       }
+    },
+    async editVeggie({ commit }, payload) {
+      let url = api_endpoint + "/api/items/" + payload.id
+      let body = {
+        id: payload.id,
+        name: payload.name,
+        price: payload.price,
+        inventories: payload.inventories,
+        total_sales: payload.total_sales
+      }
+      console.log(body)
+      let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
+       if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
+        commit('edit',payload.id,res.data)
+         // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
+       } else {
+         console.error(res)
+       }
     },
     async deleteVeggie({commit},payload){
       let url = api_endpoint + '/api/items/'+ payload

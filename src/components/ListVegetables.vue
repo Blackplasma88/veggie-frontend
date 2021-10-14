@@ -34,10 +34,10 @@
       <tbody v-if="status === 1">
         <tr scope="row">
           <td>1</td>
-          <button @click="checkInfo(this.item[0].id)">Info</button>
-          <td>{{ this.item[0].name }}</td>
-          <td>{{ this.item[0].price }}</td>
-          <td>{{ this.item[0].inventories }}</td>
+          <button @click="checkInfo(item[0].id)">Info</button>
+          <td>{{ item[0].name }}</td>
+          <td>{{ item[0].price }}</td>
+          <td>{{ item[0].inventories }}</td>
           <td>
             <button id="btn" @click="decreaseInCart(index)">-</button>
             <input type="number" v-model="v[index]">
@@ -58,7 +58,6 @@
 import ItemApi from '@/store/ItemApi'
 import OrderApi from '@/store/OrderApi'
 import ItemService from '../services/ItemService';
-
 export default {
   data(){
     return{
@@ -71,14 +70,25 @@ export default {
       index: 0
     }
   },
-  async created(){
-    await ItemApi.dispatch('fetchData')
-    this.list = ItemApi.getters.data.data
-    for(var i in this.list){
-      this.v.push(0)
-    }
+  created(){
+    this.fetchData()
   },
   methods:{
+    async fetchData(){
+      await ItemApi.dispatch('fetchData')
+      this.list = ItemApi.getters.data.data
+      for(var i in this.list){
+      this.v.push(0)
+      } 
+    },
+    setData(){
+      this.v = []
+      this.price = 0
+      this.search = ''
+      this.status = 0
+      this.item = ''
+      this.index = 0
+    },
     async buy(){
       // add item to order table
       let tmp = []
@@ -115,9 +125,11 @@ export default {
           inventories: this.list[value[i].id - 1].inventories - value[i].val,
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
-        await OrderApi.dispatch('editData',payload)
+        await ItemApi.dispatch('editVeggie',payload)
       }
-      location.reload()
+      alert('Buy complete')
+      this.fetchData()
+      this.setData()
     },
     addInCard(index){
         this.price += this.list[index].price

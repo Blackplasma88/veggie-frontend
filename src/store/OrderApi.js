@@ -76,23 +76,6 @@ export default new Vuex.Store({
       //    }
       //  }
     },
-    async editData({ commit }, payload) {
-      let url = api_endpoint + "/api/items/" + payload.id
-      let body = {
-        id: payload.id,
-        name: payload.name,
-        price: payload.price,
-        inventories: payload.inventories,
-        total_sales: payload.total_sales
-      }
-      let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
-       if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
-        commit('edit',payload.index,res.data)
-         // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
-       } else {
-         console.error(res)
-       }
-    },
     async deleteOrder({commit},payload){
       let url = api_endpoint + '/api/orders/' + payload
       let res = await Axios.delete(url)
