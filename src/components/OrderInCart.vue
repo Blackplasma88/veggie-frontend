@@ -18,7 +18,7 @@
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button @click="payment()">ชำระเงิน</button>
+                <button @click="payment(order.id)">ชำระเงิน</button>
                 <button>ยกเลิก</button>
             </td>
         </tr>
@@ -48,8 +48,8 @@ export default {
     //   this.v.push(0);
   },
   methods:{
-    payment(){
-      this.$router.push({name : 'Payment'})
+    payment(id){
+      this.$router.push({name : 'Payment',params:{ id }})
     }
   }
 }
