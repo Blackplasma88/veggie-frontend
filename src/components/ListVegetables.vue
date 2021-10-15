@@ -77,7 +77,19 @@ export default {
     async fetchData(){
       await ItemApi.dispatch('fetchData')
       this.list = ItemApi.getters.data.data
-      this.v = Array(this.list.length).fill(0) 
+      this.v = Array(this.list.length).fill(0)
+      // let x = JSON.parse(localStorage.getItem('v'))
+      if(JSON.parse(localStorage.getItem('v')) !== null){
+        this.v = JSON.parse(localStorage.getItem('v'))
+      }
+      if(JSON.parse(localStorage.getItem('price')) !== null){
+        this.price = JSON.parse(localStorage.getItem('price'))
+      } 
+      // var array = []
+      // array.push(JSON.parse(localStorage.getItem('list')))
+      localStorage.setItem('price',JSON.stringify(this.price))
+      localStorage.setItem('list',JSON.stringify(this.list))
+      localStorage.setItem('v',JSON.stringify(this.v))
     },
     setData(){
       this.v = Array(this.list.length).fill(0)
@@ -88,6 +100,7 @@ export default {
       this.status = 0
     },
     async buy(check){
+      this.price = JSON.parse(localStorage.getItem('price'))
       // add item to order table
       let tmp = []
       for(let i=0;i < this.v.length;i++){
@@ -120,20 +133,22 @@ export default {
           id: value[i].id,
           name: this.list[value[i].id - 1].name,
           price: this.list[value[i].id - 1].price,
-          inventories: this.list[value[i].id - 1].inventories,
+          inventories: this.list[value[i].id - 1].inventories - value[i].val,
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
         await ItemApi.dispatch('editVeggie',payload)
       }
       alert('Buy complete')
-      this.fetchData()
       this.setData()
+      this.fetchData()
+      localStorage.removeItem('v')
+      localStorage.removeItem('price')
     },
     addInCard(index,index_1){
         // update in item
         this.item[index_1].inventories -= 1
         // update in list
-        this.list[index].inventories -=1
+        this.list[index].inventories -= 1
         this.price += this.list[index].price
         this.v[index] += 1
     },
