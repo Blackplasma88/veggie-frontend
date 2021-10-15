@@ -35,6 +35,7 @@ export default new Vuex.Store({
       commit('fetch', { res })
     },
     async addData({ commit }, payload) {
+      let headers = AuthService.getApiHeader()
       let url = api_endpoint + "/api/orders"
       let body = { 
         user_id: payload.user_id,
@@ -44,20 +45,20 @@ export default new Vuex.Store({
       }
     //   try {
         // let headers = AuthService.getApiHeader()
-        let res = await Axios.post(url, body)
-    //     if (res.status === 200) {
-    //       commit('add', res.data)
-    //       return {
-    //         success: true,
-    //         data: res.data
-    //       }
-    //     } else {
-    //       console.error(res)
-    //       return {
-    //         success: false,
-    //         message: "Unknown status code: " + res.status
-    //       }
-    //     }
+        let res = await Axios.post(url, body, headers)
+        if (res.status === 200) {
+          commit('add', res.data)
+          return {
+            success: true,
+            data: res.data
+          }
+        } else {
+          console.error(res)
+          return {
+            success: false,
+            message: "Unknown status code: " + res.status
+          }
+        }
     //   } catch (e) {
     //     if (e.response.status === 403) {
     //       console.error(e.response.data.message)

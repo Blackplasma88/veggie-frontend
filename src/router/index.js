@@ -10,6 +10,7 @@ import FoodMenu from '../views/FoodMenu.vue'
 import Login from '../views/authenticate/Login'
 import Logout from '../views/authenticate/Logout'
 import Register from '../views/authenticate/Register'
+import AddItem from '../views/AddItem.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/add-item',
+    name: 'AddItem',
+    component: AddItem
   },
 ]
 

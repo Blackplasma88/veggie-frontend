@@ -1,6 +1,7 @@
 <template>
   <div>
     List Vegetables
+    <b-button class="success" @click="addItem()">Add Item</b-button>
     <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
@@ -19,15 +20,15 @@
           <td>{{ item.inventories }}</td>
           <td>
             <input type="number" v-model="v[index]">
-            <button @click="addInCard(index)">+</button>
-            <button >-</button>
+            <button @click="increase(index)">+</button>
+            <button @click="decrease(index)">-</button>
           </td>
         </tr>
       </tbody>
     </table>
     <div class="sumary">
       <label for="price" class="summary-1">ราคารวม : {{ price }} บาท</label>
-      <b-button class="summary-1">Card</b-button>
+      <b-button class="summary-1" @click="cart()">Card</b-button>
       <b-button class="summary-1" @click="buy()">Buy</b-button>
     </div>
   </div>
@@ -89,13 +90,40 @@ export default {
           inventories: this.list[value[i].id - 1].inventories - ( value[i].val * 100 ),
           total_sales: this.list[value[i].id - 1].total_sales + value[i].val
         }
-        let res = await OrderApi.dispatch('editData',payload)
+        // let res = await OrderApi.dispatch('editData',payload)
       }
 
     },
-    addInCard(index){
+    async cart(){
+      // add item to order table
+      let tmp = []
+      for(let i=0;i < this.v.length;i++){
+        if(this.v[i] !== 0){
+          let data = this.list[i].name + " : " + this.v[i] + " ขีด"
+          tmp.push(data)
+        }
+      }
+      let payload = {
+        user_id: 1,
+        text: tmp.join(),
+        amount: this.price,
+        status: "รอชำระเงิน"
+      }
+      let res = await OrderApi.dispatch('addData',payload)
+      if(res.success) {
+        this.$router.push('/cart')
+      }
+    },
+    increase(index){
       this.price += this.list[index].price
       this.v[index] += 1
+    },
+    decrease(index){
+      this.price -= this.list[index].price
+      this.v[index] -= 1
+    },
+    addItem(){
+      this.$router.push('/add-item')
     },
     checkInfo(id){
       this.$router.push({name : 'Information',params:{ id }})
