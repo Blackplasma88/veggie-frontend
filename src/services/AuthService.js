@@ -56,11 +56,11 @@ export default{
             }
         }    
     },
-    async register({username, email, password}){ 
-        try{
+    async register(payload){ 
+        // try{
             let url = `${api_endpoint}/api/register`
             let body = {
-                username: payload.username,
+                name: payload.name,
                 email: payload.email,
                 password: payload.password,
                 password_confirmation: payload.password_confirmation,
@@ -72,7 +72,7 @@ export default{
                 // role: "CUSTOMER"
             }
             let res = await Axios.post(url, body)
-            if(res.status === 200){
+            if(res.statusText === 'Created'){
                 localStorage.setItem(auth_key, JSON.stringify(res.data))
                 return{
                     success: true,
@@ -82,20 +82,20 @@ export default{
             }else{
                 console.log("NOT 200", res)
             }
-        }catch(e){
-            if(e.response.status === 400){
-                console.error(e.response.data.message[0].messages[0].message)
-                return{
-                    success: false,
-                    message: e.response.data.message[0].messages[0].message 
-                }
-            }else{
-                return{
-                    success: false,
-                    message: "Unknown error: " + e.response.data
-                }
-            }
-        }
+        // }catch(e){
+        //     if(e.response.status === 400){
+        //         console.error(e.response.data.message[0].messages[0].message)
+        //         return{
+        //             success: false,
+        //             message: e.response.data.message[0].messages[0].message 
+        //         }
+        //     }else{
+        //         return{
+        //             success: false,
+        //             message: "Unknown error: " + e.response.data
+        //         }
+        //     }
+        // }
     },
     async logout(){
         let url = api_endpoint + "/api/logout"

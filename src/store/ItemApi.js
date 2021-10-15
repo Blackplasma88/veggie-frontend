@@ -5,7 +5,6 @@ import AuthService from '@/services/AuthService'
 
 Vue.use(Vuex)
 
-// const api_endpoint = "http://localhost:8000"
 const api_endpoint = "http://127.0.0.1:8000"
 
 export default new Vuex.Store({
@@ -42,7 +41,6 @@ export default new Vuex.Store({
         total_sales: payload.total_sales
       }
       let res = await Axios.post(url, body, headers)
-      console.log(res)
       if(res.statusText === 'Created'){
         return{
           success: true

@@ -37,6 +37,9 @@ export default {
     methods:{
         async login(){
             let res = await AuthUser.dispatch('login', this.form)
+            if(res.success){
+                this.$router.push('/')
+            }
         }
     }
 }

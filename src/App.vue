@@ -6,13 +6,27 @@
       <router-link to="/orders">Order Status</router-link>  
       <router-link to="/menu">Food menu</router-link>
       <router-link to="/profile">My</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
-      <router-link to="/logout">Logout</router-link>
+      <router-link to="/login" v-if="isLogin === false">Login</router-link>
+      <router-link to="/register" v-if="isLogin === false">Register</router-link>
+      <router-link to="/logout" v-if="isLogin !== false">Logout</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import AuthService from '@/services/AuthService.js'
+export default {
+  data(){
+    return{ 
+      isLogin:false
+    }
+  },
+  created(){
+    this.isLogin = AuthService.isAuthen();
+  }
+}
+</script>
 
 <style lang="scss">
 #app {

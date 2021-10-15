@@ -58,7 +58,8 @@
 <script>
 import ItemApi from '@/store/ItemApi'
 import OrderApi from '@/store/OrderApi'
-import ItemService from '../services/ItemService';
+import ItemService from '../services/ItemService'
+import AuthService from '../services/AuthService'
 
 export default {
   data(){
@@ -140,7 +141,7 @@ export default {
         }
       }
       let payload = {
-        user_id: 1,
+        user_id: AuthService.getUser().id,
         text: tmp.join(),
         amount: this.price,
         status: "รอชำระเงิน"

@@ -9,6 +9,9 @@
         <div>
             <label for="create">Created at : {{ profile.created_at }}</label>
         </div>
+        <div>
+            <label for="balance">Balance : {{ profile.balance_amount }}</label>
+        </div>
     </div>
 </template>
 
