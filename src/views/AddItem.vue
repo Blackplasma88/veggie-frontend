@@ -1,15 +1,18 @@
 <template>
     <div>
-        <h1>Add Item</h1>
+        <create-vegetable></create-vegetable>
     </div>
 </template>
 
 <script>
-    export default {
-        
+import CreateVegetable from '@/components/CreateVegetable'
+export default {
+    components:{
+        CreateVegetable
     }
+}
 </script>
 
-<style lang="scss" scoped>
+<style>
 
 </style>

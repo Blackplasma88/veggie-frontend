@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Info from '../views/Info.vue'
+import Info from '../views/Information.vue'
 import Cart from '../views/Cart.vue'
 import Payment from '../views/Payment.vue'
 import ListOrder from '../views/OrderStatus.vue'
@@ -69,7 +69,7 @@ const routes = [
     path: '/add-item',
     name: 'AddItem',
     component: AddItem
-  },
+  }
 ]
 
 const router = new VueRouter({

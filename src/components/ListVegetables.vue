@@ -1,6 +1,10 @@
 <template>
   <div>
-    List Vegetables
+    <br><br>
+    <input v-model="search" type="text" placeholder="search">
+    <button v-if="status === 0" @click="searchName()">Search</button>
+    <button v-if="status === 1" @click="closeSearch()">Cancel</button>
+    <br><br>List Vegetables<br><br>
     <b-button class="success" @click="addItem()">Add Item</b-button>
     <table class="table table-bordered">
       <thead>
@@ -11,7 +15,8 @@
         <th scope="col">จำนวนคงเหลือทั้งหมด</th>
         <th scope="col">จำนวนที่ซื้อ / ขีด</th>
       </thead>
-      <tbody>
+      <!-- don't search -->
+      <tbody v-if="status === 0">
         <tr v-for="(item, index) in list" :key="index" scope="row">
           <td>{{ index+1 }}</td>
           <button @click="checkInfo(item.id)">Info</button>
@@ -19,9 +24,25 @@
           <td>{{ item.price }}</td>
           <td>{{ item.inventories }}</td>
           <td>
+            <button @click="decrease(index)">-</button>
             <input type="number" v-model="v[index]">
             <button @click="increase(index)">+</button>
-            <button @click="decrease(index)">-</button>
+          </td>
+        </tr>
+      </tbody>
+      
+       <!-- search -->
+      <tbody v-if="status === 1">
+        <tr v-for="(it, index) in item" :key="index" scope="row">
+          <td>{{ index+1 }}</td>
+          <button @click="checkInfo(it.id)">Info</button>
+          <td>{{ it.name }}</td>
+          <td>{{ it.price }}</td>
+          <td>{{ it.inventories }}</td>
+          <td>
+            <button id="btn" @click="decreaseInCart(listIndex[index],index)">-</button>
+            <input type="number" v-model="v[listIndex[index]]">
+            <button id="btn1" @click="addInCard(listIndex[index],index)">+</button>
           </td>
         </tr>
       </tbody>
@@ -37,13 +58,19 @@
 <script>
 import ItemApi from '@/store/ItemApi'
 import OrderApi from '@/store/OrderApi'
+import ItemService from '../services/ItemService';
 
 export default {
   data(){
     return{
       list:[],
+      pv:[],
       v:[],
-      price:0
+      price:0,
+      item: [],
+      listIndex: [],
+      search: '',
+      status: 0,
     }
   },
   async created(){
@@ -51,9 +78,18 @@ export default {
     this.list = ItemApi.getters.data.data
     for(var i in this.list){
       this.v.push(0)
+      this.pv.push(0)
     }
   },
   methods:{
+    setData(){
+      this.v = Array(this.list.length).fill(0)
+      this.item = []
+      this.listIndex = []
+      this.price = 0
+      this.search = ''
+      this.status = 0
+    },
     async buy(){
       // add item to order table
       let tmp = []
@@ -115,18 +151,43 @@ export default {
       }
     },
     increase(index){
-      this.price += this.list[index].price
-      this.v[index] += 1
+      this.v[index] = parseInt(this.v[index])
+      if(this.v[index] < this.list[index].inventories){
+        this.price -= ( this.pv[index] * this.list[index].price )
+        this.v[index] = this.v[index] + 1
+        this.price += ( this.v[index] * this.list[index].price )
+        this.pv[index] = this.v[index]
+      }
     },
     decrease(index){
-      this.price -= this.list[index].price
-      this.v[index] -= 1
+      this.v[index] = parseInt(this.v[index])
+      if(this.price > 0 &&  this.v[index] > 0){
+        this.price -= ( this.pv[index] * this.list[index].price )
+        this.v[index] = this.v[index] - 1
+        this.price += ( this.v[index] * this.list[index].price )
+        this.pv[index] = this.v[index]
+      }
     },
     addItem(){
       this.$router.push('/add-item')
     },
     checkInfo(id){
       this.$router.push({name : 'Information',params:{ id }})
+    },
+    async searchName(){
+      this.listIndex = []
+      this.status = 1
+      let res = await ItemService.searchName(this.search)
+      this.item = res
+      for(let i = 0; i< this.item.length; i++){
+        let x = this.list.findIndex(x => x.name === this.item[i].name)
+        this.listIndex.push(x)
+      }
+    },
+    closeSearch(){
+      this.listIndex = []
+      this.status = 0
+      this.search = ''
     }
   }
 };

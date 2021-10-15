@@ -21,12 +21,12 @@ export default new Vuex.Store({
     add(state, payload) {
       state.data.push(payload)
     },
-    // edit(state,index,data){ 
-    //   state.data[index].name = data.name 
-    //   state.data[index].name_jp = data.name_jp
-    //   state.data[index].pokemos_types = data.pokemon_types 
-    //   state.data[index] = data
-    // }
+    edit(state,index,data){ 
+      state.data[index].name = data.name 
+      state.data[index].name_jp = data.name_jp
+      state.data[index].pokemos_types = data.pokemon_types 
+      state.data[index] = data
+    }
   },
   actions: {
     async fetchData({ commit }) {
@@ -46,7 +46,7 @@ export default new Vuex.Store({
     //   try {
         // let headers = AuthService.getApiHeader()
         let res = await Axios.post(url, body, headers)
-        if (res.status === 200) {
+        if (res.statusText === "Created") {
           commit('add', res.data)
           return {
             success: true,
@@ -74,23 +74,14 @@ export default new Vuex.Store({
     //     }
     //   }
     },
-    async editData({ commit }, payload) {
-      let url = api_endpoint + "/api/items/" + payload.id
-      let body = {
-        id: payload.id,
-        name: payload.name,
-        price: payload.price,
-        inventories: payload.inventories,
-        total_sales: payload.total_sales
+    async deleteOrder({commit},payload){
+      let url = api_endpoint + '/api/orders/' + payload
+      let res = await Axios.delete(url)
+      if(res.status === 200){
+        return {
+          success: true
+        }
       }
-    //   let headers = AuthService.getApiHeader()
-      let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
-    //   if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
-    //     // commit('edit',payload.index,res.data)
-    //     // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
-    //   } else {
-    //     console.error(res)
-    //   }
     }
   },
 //   modules: {

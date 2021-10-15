@@ -19,6 +19,8 @@
             <td>{{ order.status }}</td>
             <td>
                 <button>ข้อมูล</button>
+                <button>ชำระเงิน</button>
+                <button @click="deleteOrder(order,index)">ยกเลิก</button>
             </td>
         </tr>
       </tbody>
@@ -44,8 +46,17 @@ export default {
     }
     // for (var i in this.list) {
     //   this.v.push(0);
+  },
+  methods:{
+    async deleteOrder(order,index){
+      let res = await OrderApi.dispatch('deleteOrder',order.id)
+      if(res.success){
+        alert('delete Order complete')
+        this.list.splice(index,1)
+      }
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
