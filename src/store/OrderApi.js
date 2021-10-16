@@ -18,72 +18,84 @@ export default new Vuex.Store({
     fetch(state, { res }) {
       state.data = res.data
     },
-    add(state, payload) {
-      state.data.push(payload)
-    },
-    edit(state,index,data){ 
-      state.data[index].name = data.name 
+    edit(state, index, data) {
+      state.data[index].name = data.name
       state.data[index].name_jp = data.name_jp
-      state.data[index].pokemos_types = data.pokemon_types 
+      state.data[index].pokemos_types = data.pokemon_types
       state.data[index] = data
     }
   },
   actions: {
     async fetchData({ commit }) {
       let headers = AuthService.getApiHeader()
-      let res = await Axios.get(api_endpoint + "/api/orders",headers)
+      let res = await Axios.get(api_endpoint + "/api/orders", headers)
       commit('fetch', { res })
     },
     async addData({ commit }, payload) {
       let headers = AuthService.getApiHeader()
       let url = api_endpoint + "/api/orders"
-      let body = { 
+      let body = {
         user_id: payload.user_id,
         data: payload.text,
         amount: payload.amount,
         status: payload.status,
       }
-    //   try {
-        // let headers = AuthService.getApiHeader()
-        let res = await Axios.post(url, body, headers)
-        if (res.statusText === "Created") {
-          commit('add', res.data)
-          return {
-            success: true,
-            data: res.data
-          }
-        } else {
-          console.error(res)
-          return {
-            success: false,
-            message: "Unknown status code: " + res.status
-          }
+      //   try {
+      // let headers = AuthService.getApiHeader()
+      let res = await Axios.post(url, body, headers)
+      if (res.statusText === "Created") {
+        return {
+          success: true,
+          data: res.data
         }
-    //   } catch (e) {
-    //     if (e.response.status === 403) {
-    //       console.error(e.response.data.message)
-    //       return {
-    //         success: false,
-    //         message: e.response.data.message
-    //       }
-    //     } else {
-    //       return {
-    //         success: false,
-    //         message: "Unknown error: " + res.response.data
-    //       }
-    //     }
-    //   }
+      } else {
+        console.error(res)
+        return {
+          success: false,
+          message: "Unknown status code: " + res.status
+        }
+      }
+      //   } catch (e) {
+      //     if (e.response.status === 403) {
+      //       console.error(e.response.data.message)
+      //       return {
+      //         success: false,
+      //         message: e.response.data.message
+      //       }
+      //     } else {
+      //       return {
+      //         success: false,
+      //         message: "Unknown error: " + res.response.data
+      //       }
+      //     }
+      //   }
     },
-    async deleteOrder({commit},payload){
+    async editData({ commit }, payload) {
+      let headers = AuthService.getApiHeader()
+      let url = api_endpoint + "/api/orders/" + payload.id
+      let body = {
+        id: payload.id,
+        status: payload.order.status
+      }
+      let res = await Axios.put(url, body, headers)
+      if (res.status === 200) {
+        return {
+          success: true
+        }
+      } else {
+        console.error(res)
+      }
+    },
+    async deleteOrder({ commit }, payload) {
       let url = api_endpoint + '/api/orders/' + payload
       let res = await Axios.delete(url)
-      if(res.status === 200){
+      if (res.status === 200) {
         return {
           success: true
         }
       }
     }
   },
-//   modules: {
-//   }
+  //   modules: {
+  //   }
 })
