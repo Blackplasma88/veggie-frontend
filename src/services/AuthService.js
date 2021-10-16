@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-const api_endpoint = "http://localhost:8000"
+const api_endpoint = "http://127.0.0.1:8000"
 const auth_key = "auth-user" // keyName
 let auth_service = JSON.parse(localStorage.getItem(auth_key))
 const user = auth_service ? auth_service.user: "" 
@@ -12,10 +12,9 @@ export default{
     },
     getApiHeader(){
         if(jwt !== ""){
-            let tk = jwt.split("|")
             return{
                 headers:{
-                    Authorization: "Bearer " + tk[1]
+                    Authorization: "Bearer " + jwt
                 }
             }
         }
@@ -99,13 +98,8 @@ export default{
     },
     async logout(){
         let url = api_endpoint + "/api/logout"
-        let tk = jwt.split("|")
-        let config = {
-            headers:{
-                Authorization: "Bearer " + tk[1]
-            }
-        }
-        let res = await Axios.post(url, config)
+        let headers = this.getApiHeader()
+        let res = await Axios.post(url, "",headers)    
         localStorage.removeItem(auth_key)
         return {
             success: true,

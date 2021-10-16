@@ -45,7 +45,10 @@ export default {
         this.user.balance_amount -= this.order.amount;
         let payload = {
           id: this.user.id,
-          user: this.user,
+          name: this.user.name,
+          email: this.user.email,
+          balance_amount: this.user.balance_amount,
+          role: this.user.role
         };
         let res = await UserApi.dispatch("editData", payload);
         if (res.success) {

@@ -11,6 +11,8 @@ import Login from '../views/authenticate/Login'
 import Logout from '../views/authenticate/Logout'
 import Register from '../views/authenticate/Register'
 import AddItem from '../views/AddItem.vue'
+import SetUp from '../views/SetUp.vue'
+import GrantUser from '../views/GrantUser.vue'
 
 Vue.use(VueRouter)
 
@@ -69,7 +71,17 @@ const routes = [
     path: '/add-item',
     name: 'AddItem',
     component: AddItem
-  }
+  },
+  {
+    path: '/setup',
+    name: 'SetUp',
+    component: SetUp
+  },
+  {
+    path: '/grant',
+    name: 'GrantUser',
+    component: GrantUser
+  },
 ]
 
 const router = new VueRouter({

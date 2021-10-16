@@ -30,11 +30,11 @@ export default new Vuex.Store({
 //     }
   },
   actions: {
-    // async fetchData({ commit }){ 
-    //     let headers = AuthService.getApiHeader()
-    //   let res = await Axios.get(api_endpoint+"/users-data",headers) 
-    //   commit('fetch',{res})  
-    // },
+    async fetchData({ commit }){ 
+      let headers = AuthService.getApiHeader()
+      let res = await Axios.get(api_endpoint+"/api/users",headers) 
+      commit('fetch',{res})  
+    },
     // async addData({commit},payload){
     //   let url = api_endpoint + "/rewards" 
     //   let body = { 
@@ -78,7 +78,10 @@ export default new Vuex.Store({
       let url = api_endpoint + "/api/users/" + payload.id 
       let body = {  
         id: payload.id,
-        balance_amount:payload.user.balance_amount
+        name: payload.name,
+        email: payload.email,
+        balance_amount:payload.balance_amount,
+        role: payload.role
       }
       let res = await Axios.put(url,body,headers) 
       if(res.status === 200){

@@ -45,6 +45,9 @@ export default new Vuex.Store({
     async logout(){
         AuthService.logout()
         this.commit('logoutSuccess')
+        return {
+          success: true,
+      }
     }
   },
   getters: {

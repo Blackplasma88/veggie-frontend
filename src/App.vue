@@ -6,6 +6,7 @@
       <router-link to="/orders">Order Status</router-link>  
       <router-link to="/menu">Food menu</router-link>
       <router-link to="/profile">My</router-link>
+      <router-link to="/setup">Set up</router-link>
       <router-link to="/login" v-if="isLogin === false">Login</router-link>
       <router-link to="/register" v-if="isLogin === false">Register</router-link>
       <router-link to="/logout" v-if="isLogin !== false">Logout</router-link>
