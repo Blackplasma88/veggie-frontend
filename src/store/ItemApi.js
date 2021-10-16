@@ -47,20 +47,16 @@ export default new Vuex.Store({
         }
       }
     },
-    async editVeggie({ commit }, payload) {
+    async editData({ commit }, payload) {
+      let headers = AuthService.getApiHeader()
       let url = api_endpoint + "/api/items/" + payload.id
       let body = {
         id: payload.id,
-        name: payload.name,
-        price: payload.price,
-        inventories: payload.inventories,
-        total_sales: payload.total_sales
+        total: payload.total
       }
-      console.log(body)
-      let res = await Axios.put(url, body) // edit data in DB โดยการ put ผ่าน url & body
-       if (res.status === 200) { // เช็คว่าบันทึกลง DB เรียบร้อย
+      let res = await Axios.put(url, body, headers) 
+       if (res.status === 200) {
         commit('edit',payload.id,res.data)
-         // ใช้วืธี load หน้าใหม่เพื่อ update state จะดีกว่า
        } else {
          console.error(res)
        }

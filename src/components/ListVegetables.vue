@@ -108,7 +108,7 @@ export default {
       let tmp = [];
       for (let i = 0; i < this.v.length; i++) {
         if (this.v[i] !== 0) {
-          let data = this.list[i].name + " : " + this.v[i] + " ขีด";
+          let data = this.list[i].id + " " + this.list[i].name + " : " + this.v[i] + " ขีด";
           tmp.push(data);
         }
       }
@@ -118,37 +118,20 @@ export default {
         amount: this.price,
         status: "รอชำระเงิน",
       };
-      // let res = await OrderApi.dispatch('addData',payload)
+      let res = await OrderApi.dispatch('addData',payload)
+      if (res.success) {
+        let id = res.data.id;
+        this.$router.push({name : 'Payment',params:{ id }});
+      }
 
-      // update data in item table
-      let value = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = {
-            id: this.list[i].id,
-            val: this.v[i],
-          };
-          value.push(data);
-        }
-      }
-      for (let i = 0; i < value.length; i++) {
-        payload = {
-          id: value[i].id,
-          name: this.list[value[i].id - 1].name,
-          price: this.list[value[i].id - 1].price,
-          inventories:
-            this.list[value[i].id - 1].inventories - value[i].val * 100,
-          total_sales: this.list[value[i].id - 1].total_sales + value[i].val,
-        };
-        // let res = await OrderApi.dispatch('editData',payload)
-      }
+      
     },
     async cart() {
       // add item to order table
       let tmp = [];
       for (let i = 0; i < this.v.length; i++) {
         if (this.v[i] !== 0) {
-          let data = this.list[i].name + " : " + this.v[i] + " ขีด";
+          let data = this.list[i].id + " " + this.list[i].name + " : " + this.v[i] + " ขีด";
           tmp.push(data);
         }
       }

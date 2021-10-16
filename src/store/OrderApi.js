@@ -80,7 +80,8 @@ export default new Vuex.Store({
       let res = await Axios.put(url, body, headers)
       if (res.status === 200) {
         return {
-          success: true
+          success: true,
+          data: res.data
         }
       } else {
         console.error(res)
