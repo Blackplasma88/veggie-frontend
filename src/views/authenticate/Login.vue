@@ -1,5 +1,6 @@
 <template>
   <div>
+      <head-bar></head-bar>
       <h1>LOG IN</h1>
       <form @submit.prevent="login"> 
           <div class="form-group row">
@@ -24,8 +25,12 @@
 </template>
 
 <script>
+import HeadBar from '@/components/headbar/HeadBar'
 import AuthUser from "@/store/AuthUser"
 export default {
+    components: {
+            HeadBar
+        },
     data(){
         return{
             form:{ 

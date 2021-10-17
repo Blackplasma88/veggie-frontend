@@ -1,5 +1,6 @@
 <template>
     <div>
+        <head-bar></head-bar>
         <h1>Register page</h1>
         <form @submit.prevent="register"> 
             <div>
@@ -44,8 +45,12 @@
 </template>
 
 <script>
+import HeadBar from '@/components/headbar/HeadBar'
 import AuthUser from "@/store/AuthUser"
 export default {
+    components: {
+            HeadBar
+        },
     data(){
         return{
             form:{

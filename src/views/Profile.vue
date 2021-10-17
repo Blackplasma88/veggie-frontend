@@ -1,5 +1,6 @@
 <template>
     <div>
+        <head-bar></head-bar>
         <div>
             <label for="name">Name : {{ profile.name }}</label>
         </div>
@@ -16,8 +17,12 @@
 </template>
 
 <script>
+import HeadBar from '@/components/headbar/HeadBar'
 import AuthService from "@/services/AuthService"
     export default {
+        components: {
+            HeadBar
+        },
         data(){
             return{
                 profile:""

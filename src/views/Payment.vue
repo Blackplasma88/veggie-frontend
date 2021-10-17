@@ -1,5 +1,6 @@
 <template>
   <div>
+    <head-bar></head-bar>
     <div>
       <label for="data">Data : {{ order.data }}</label>
     </div>
@@ -20,12 +21,16 @@
 </template>
 
 <script>
+import HeadBar from '@/components/headbar/HeadBar'
 import OrderService from "../services/OrderService";
 import AuthService from "../services/AuthService";
 import UserApi from "../store/UserApi";
 import ItemApi from "../store/ItemApi";
 import OrderApi from "../store/OrderApi";
 export default {
+  components: {
+            HeadBar
+        },
   data() {
     return {
       id: "",
