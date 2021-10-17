@@ -1,6 +1,6 @@
 <template>
   <div>
-    List Orders
+    Management Orders
     <table class="table table-boradered">
       <thead>
         <th scope="col">#</th>
@@ -8,7 +8,7 @@
         <th scope="col">ของที่ซื้อ</th>
         <th scope="col">ราคา / บาท</th>
         <th scope="col">สถานะ</th>
-        <th scope="col">เช็คข้อมูล</th>
+        <th scope="col">จัดการ</th>
       </thead>
       <tbody>
         <tr v-for="(order, index) in list" :key="index">
@@ -18,7 +18,7 @@
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button>ข้อมูล</button>
+                <button @click="manage(order.id)">manage</button>
             </td>
         </tr>
       </tbody>
@@ -39,7 +39,7 @@ export default {
     await OrderApi.dispatch("fetchData");
     let tmp = OrderApi.getters.data.data;
     for(let i in tmp){
-      if(tmp[i].user_id === AuthService.getUser().id && tmp[i].status !== "รอชำระเงิน"){
+      if(tmp[i].status !== "รอชำระเงิน"){
         this.list.push(tmp[i])
       }
     }
@@ -47,6 +47,9 @@ export default {
     //   this.v.push(0);
   },
   methods:{
+      async manage(id){
+        this.$router.push({ name: "ChangeStatusOrder", params: { id } });
+      }
     // async deleteOrder(order,index){
     //   let res = await OrderApi.dispatch('deleteOrder',order.id)
     //   if(res.success){

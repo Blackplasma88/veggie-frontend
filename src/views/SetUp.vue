@@ -1,6 +1,7 @@
 <template>
     <div>
         <b-button variant="success" v-if="role === 'ADMIN'" @click="grant()">grant</b-button>
+        <b-button variant="success" @click="deposit()">เติมเงิน</b-button>
     </div>
 </template>
 
@@ -18,6 +19,9 @@ import AuthUser from "../store/AuthUser";
         methods:{
             grant() {
                 this.$router.push('/grant')
+            },
+            deposit(){
+                
             }
         }
     }

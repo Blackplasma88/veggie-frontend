@@ -1,14 +1,15 @@
 <template>
     <div>
-        <in-fo-veg></in-fo-veg>
+        <management-orders></management-orders>
     </div>
 </template>
 
 <script>
-import InFoVeg from '@/components/InfoOfVeg'
+import ManagementOrders from '@/components/officer/ManagementOrders.vue'
+
     export default {
         components:{
-            InFoVeg
+            ManagementOrders
         }
     }
 </script>

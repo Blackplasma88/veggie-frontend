@@ -5,6 +5,7 @@
       <router-link to="/cart">Cart</router-link>  
       <router-link to="/orders">Order Status</router-link>  
       <router-link to="/menu">Food menu</router-link>
+      <router-link to="/manage-orders" v-if="user.role === 'OFFICER'">Management order</router-link>
       <router-link to="/profile">My</router-link>
       <router-link to="/setup">Set up</router-link>
       <router-link to="/login" v-if="isLogin === false">Login</router-link>
@@ -20,11 +21,13 @@ import AuthService from '@/services/AuthService.js'
 export default {
   data(){
     return{ 
-      isLogin:false
+      isLogin:false,
+      user:""
     }
   },
   created(){
     this.isLogin = AuthService.isAuthen();
+    this.user = AuthService.getUser();
   }
 }
 </script>

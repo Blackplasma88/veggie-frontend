@@ -1,14 +1,14 @@
 <template>
     <div>
-        <in-fo-veg></in-fo-veg>
+        <change-status-order></change-status-order>
     </div>
 </template>
 
 <script>
-import InFoVeg from '@/components/InfoOfVeg'
+import ChangeStatusOrder from '@/components/officer/ChangeStatusOrder.vue'
     export default {
         components:{
-            InFoVeg
+            ChangeStatusOrder
         }
     }
 </script>
