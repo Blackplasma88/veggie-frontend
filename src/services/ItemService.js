@@ -14,7 +14,7 @@ export default{
         }
     },
     async searchName(name){
-        let res = await Axios.get(`${api_endpoint}/api/search/${name}`)
+        let res = await Axios.get(`${api_endpoint}/api/item/search/${name}`)
         return res.data
     }
 }

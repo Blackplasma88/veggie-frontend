@@ -22,12 +22,12 @@
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import OrderService from "../services/OrderService";
-import AuthService from "../services/AuthService";
-import UserApi from "../store/UserApi";
-import ItemApi from "../store/ItemApi";
-import ItemService from "../services/ItemService";
-import OrderApi from "../store/OrderApi";
+import OrderService from "../../services/OrderService";
+import AuthService from "../../services/AuthService";
+import UserApi from "../../store/UserApi";
+import ItemApi from "../../store/ItemApi";
+import ItemService from "../../services/ItemService";
+import OrderApi from "../../store/OrderApi";
 export default {
   components: {
             HeadBar

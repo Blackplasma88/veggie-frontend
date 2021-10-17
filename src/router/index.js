@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Info from '../views/Information.vue'
-import Cart from '../views/Cart.vue'
-import Payment from '../views/Payment.vue'
-import ListOrder from '../views/OrderStatus.vue'
-import Profile from '../views/Profile.vue'
-import FoodMenu from '../views/FoodMenu.vue'
+import ListVeg from '../views/vegetables/ListVeg.vue'
+import Info from '../views/management/Information.vue'
+import Cart from '../views/order/Cart.vue'
+import Payment from '../views/management/Payment.vue'
+import ListOrder from '../views/order/OrderStatus.vue'
+import Profile from '../views/user/Profile.vue'
+import FoodMenu from '../views/food/FoodMenu.vue'
 import Login from '../views/authenticate/Login'
 import Logout from '../views/authenticate/Logout'
 import Register from '../views/authenticate/Register'
-import AddItem from '../views/AddItem.vue'
-import SetUp from '../views/SetUp.vue'
-import ManageUser from '../views/ManageUser.vue'
-import ManagementOrder from '../views/ManagementOrder.vue'
-import ManagementVeg from '../views/ManagementVeg.vue'
-import ChangeStatusOrder from '../views/ChangeStatusOrder.vue'
+import AddItem from '../views/vegetables/AddItem.vue'
+import SetUp from '../views/management/SetUp.vue'
+import ManageUser from '../views/user/ManageUser.vue'
+import ManagementOrder from '../views/order/ManagementOrder.vue'
+import ManagementVeg from '../views/vegetables/ManagementVeg.vue'
+import ChangeStatusOrder from '../views/order/ChangeStatusOrder.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/list-veg',
+    name: 'ListVeg',
+    component: ListVeg
   },
   {
     path: '/item/:id',

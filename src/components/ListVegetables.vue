@@ -4,8 +4,6 @@
     <input v-model="search" type="text" placeholder="search" />
     <b-button v-if="status === 0" @click="searchName()">Search</b-button>
     <b-button v-if="status === 1" @click="closeSearch()">Cancel</b-button>
-    <b-button class="success" v-if="role === 'ADMIN' || role === 'OFFICER'" 
-      @click="addItem()">Add Item</b-button>
     <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
@@ -25,7 +23,7 @@
           <td>{{ item.inventories }}</td>
           <td>
             <button @click="decrease(index)">-</button>
-            <input type="number" v-model="v[index]" />
+            <input type="text" v-model="v[index]" />
             <button @click="increase(index)">+</button>
           </td>
         </tr>
@@ -162,9 +160,6 @@ export default {
         this.price += this.v[index] * this.list[index].price;
         this.pv[index] = this.v[index];
       }
-    },
-    addItem() {
-      this.$router.push("/add-item");
     },
     checkInfo(id) {
       this.$router.push({ name: "Information", params: { id } });

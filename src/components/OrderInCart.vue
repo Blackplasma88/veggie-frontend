@@ -8,6 +8,7 @@
         <th scope="col">ของที่ซื้อ</th>
         <th scope="col">ราคา / บาท</th>
         <th scope="col">สถานะ</th>
+        <th scope="col">เมื่อ</th>
         <th scope="col">ดำเนินการ</th>
       </thead>
       <tbody>
@@ -17,6 +18,7 @@
             <td>{{ order.data }}</td>
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
+            <td>{{ order.created_at }}</td>
             <td>
                 <button @click="payment(order.id)">ชำระเงิน</button>
                 <button>ยกเลิก</button>

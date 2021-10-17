@@ -8,7 +8,7 @@
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import AuthUser from "../store/AuthUser";
+import AuthUser from "../../store/AuthUser";
     export default {
         components: {
             HeadBar

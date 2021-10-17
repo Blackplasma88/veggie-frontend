@@ -7,7 +7,6 @@
     <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
-        <th scope="col">ดูข้อมูล</th>
         <th scope="col">ชื่อผัก</th>
         <th scope="col">ราคา / ขีด</th>
         <th scope="col">จำนวนคงเหลือทั้งหมด</th>
@@ -16,7 +15,6 @@
       <tbody v-if="status === 0">
         <tr v-for="(item, index) in list" :key="index" scope="row">
           <td>{{ index + 1 }}</td>
-          <button @click="checkInfo(item.id)">Info</button>
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
           <td>{{ item.inventories }}</td>
