@@ -26,6 +26,7 @@ import OrderService from "../services/OrderService";
 import AuthService from "../services/AuthService";
 import UserApi from "../store/UserApi";
 import ItemApi from "../store/ItemApi";
+import ItemService from "../services/ItemService";
 import OrderApi from "../store/OrderApi";
 export default {
   components: {
@@ -78,11 +79,13 @@ export default {
             tmp.push(data);
           }
           for (let i = 0; i < tmp.length; i++) {
+            let res = await ItemService.getItemById(tmp[i].id)
             payload = {
               id: tmp[i].id,
-              total: tmp[i].val,
+              inventories: res.data.inventories - parseInt(tmp[i].val),
+              total_sales: res.data.total_sales + parseInt(tmp[i].val)
             };
-            let res = await ItemApi.dispatch('editData',payload)
+            res = await ItemApi.dispatch('editData',payload)
           }
           if (res.success) {
             alert("success");

@@ -12,8 +12,9 @@ import Logout from '../views/authenticate/Logout'
 import Register from '../views/authenticate/Register'
 import AddItem from '../views/AddItem.vue'
 import SetUp from '../views/SetUp.vue'
-import GrantUser from '../views/GrantUser.vue'
+import ManageUser from '../views/ManageUser.vue'
 import ManagementOrder from '../views/ManagementOrder.vue'
+import ManagementVeg from '../views/ManagementVeg.vue'
 import ChangeStatusOrder from '../views/ChangeStatusOrder.vue'
 
 Vue.use(VueRouter)
@@ -80,14 +81,19 @@ const routes = [
     component: SetUp
   },
   {
-    path: '/grant',
-    name: 'GrantUser',
-    component: GrantUser
+    path: '/manage-user',
+    name: 'ManageUser',
+    component: ManageUser
   },
   {
     path: '/manage-orders',
     name: 'ManagementOrder',
     component: ManagementOrder
+  },
+  {
+    path: '/manage-veg',
+    name: 'ManagementVeg',
+    component: ManagementVeg
   },
   {
     path: '/change-status/:id',

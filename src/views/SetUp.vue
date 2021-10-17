@@ -1,7 +1,7 @@
 <template>
     <div>
         <head-bar></head-bar>
-        <b-button variant="success" v-if="role === 'ADMIN'" @click="grant()">grant</b-button>
+        <b-button variant="success" v-if="role === 'ADMIN'" @click="manage()">Manage User</b-button><br>
         <b-button variant="success" @click="deposit()">เติมเงิน</b-button>
     </div>
 </template>
@@ -22,8 +22,8 @@ import AuthUser from "../store/AuthUser";
             this.role = AuthUser.getters.user.role
         },
         methods:{
-            grant() {
-                this.$router.push('/grant')
+            manage() {
+                this.$router.push('/manage-user')
             },
             deposit(){
                 

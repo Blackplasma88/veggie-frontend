@@ -1,29 +1,55 @@
 <template>
-    <div class="summary">
-        <b-button class="summary-1" href="/">List Vegetables</b-button>
-        <b-button class="summary-1" href="/cart">Cart</b-button>
-        <b-button class="summary-1" href="/orders">Order Status</b-button>
-        <b-button class="summary-1" href="/manage-orders">Management order</b-button>
-        <b-button class="summary-1" href="/menu">Food menu</b-button>
-        <b-button class="summary-1" href="/profile">My</b-button>
-        <b-button class="summary-1" href="/setup">Set up</b-button>
-        <b-button class="summary-1" href="/login">Login</b-button>
-        <b-button class="summary-1" href="/register">Register</b-button>
-        <b-button class="summary-1" href="/logout">Logout</b-button>
-    </div>
+  <div>
+    <b-navbar type="dark" variant="primary">
+      <b-navbar-brand>LOGO</b-navbar-brand>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item href="/">List Vegetables</b-nav-item>
+          <b-nav-item href="/menu">Food menu</b-nav-item>
+          <b-nav-item-dropdown text="Order">
+            <b-dropdown-item href="/cart">Cart</b-dropdown-item>
+            <b-dropdown-item href="/orders">Order Status</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown text="Management" v-if="user.role === 'OFFICER'">
+            <b-dropdown-item href="/manage-orders">order</b-dropdown-item>
+            <b-dropdown-item href="/manage-veg">vegetables</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item href="/setup">Set up</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" align="right">
+          <b-nav-item-dropdown right text="User">
+            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item class="summary-1" href="/login"
+              >Login</b-dropdown-item
+            >
+            <b-dropdown-item class="summary-1" href="/register"
+              >Register</b-dropdown-item
+            >
+            <b-dropdown-item class="summary-1" href="/logout"
+              >Logout</b-dropdown-item
+            >
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+import AuthService from "@/services/AuthService.js";
+export default {
+  data() {
+    return {
+      isLogin: false,
+      user: "",
+    };
+  },
+  created() {
+    this.isLogin = AuthService.isAuthen();
+    this.user = AuthService.getUser();
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.sumary {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-right: 10px;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Grant</h1>
+        <h1>User Management</h1>
         <table class="table table-bordered">
       <thead>
         <th scope="col">#</th>
@@ -10,6 +10,7 @@
         <th scope="col">Role</th>
         <th scope="col">Grant</th>
         <th scope="col">Created at</th>
+        <th scope="col">Manage</th>
       </thead>
       <!-- don't search -->
       <tbody >
@@ -26,6 +27,7 @@
                 @click="grantToCustomer(user.id - 1)">grant to customer</button>
           </td>
           <td>{{ user.created_at }}</td>
+          <td><button v-if="user.role !== 'ADMIN'">ban</button> </td>
           <!-- <td>
             <button @click="decrease(index)">-</button>
             <input type="number" v-model="v[index]" />

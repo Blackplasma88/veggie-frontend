@@ -1,10 +1,9 @@
 <template>
   <div>
-    <br /><br />
+    <h2>List Vegetables</h2>
     <input v-model="search" type="text" placeholder="search" />
-    <button v-if="status === 0" @click="searchName()">Search</button>
-    <button v-if="status === 1" @click="closeSearch()">Cancel</button>
-    <br /><br />List Vegetables<br /><br />
+    <b-button v-if="status === 0" @click="searchName()">Search</b-button>
+    <b-button v-if="status === 1" @click="closeSearch()">Cancel</b-button>
     <b-button class="success" v-if="role === 'ADMIN' || role === 'OFFICER'" 
       @click="addItem()">Add Item</b-button>
     <table class="table table-bordered">

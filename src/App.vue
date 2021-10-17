@@ -4,22 +4,6 @@
   </div>
 </template>
 
-<script>
-import AuthService from '@/services/AuthService.js'
-export default {
-  data(){
-    return{ 
-      isLogin:false,
-      user:""
-    }
-  },
-  created(){
-    this.isLogin = AuthService.isAuthen();
-    this.user = AuthService.getUser();
-  }
-}
-</script>
-
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

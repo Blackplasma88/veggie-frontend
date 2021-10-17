@@ -1,17 +1,17 @@
 <template>
     <div>
         <head-bar></head-bar>
-        <grant-user></grant-user>
+        <manage-veg></manage-veg>
     </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import GrantUser from '@/components/admin/Grant'
+import ManageVeg from '@/components/officer/ManageVeg'
     export default {
         components:{
             HeadBar,
-            GrantUser
+            ManageVeg
         }
     }
 </script>

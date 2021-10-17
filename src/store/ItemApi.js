@@ -52,11 +52,15 @@ export default new Vuex.Store({
       let url = api_endpoint + "/api/items/" + payload.id
       let body = {
         id: payload.id,
-        total: payload.total
+        inventories: payload.inventories,
+        total_sales: payload.total_sales,
       }
       let res = await Axios.put(url, body, headers) 
        if (res.status === 200) {
         commit('edit',payload.id,res.data)
+        return {
+          success: true
+        }
        } else {
          console.error(res)
        }
