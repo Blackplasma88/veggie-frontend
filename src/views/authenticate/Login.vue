@@ -45,6 +45,9 @@ export default {
             if(res.success){
                 this.$router.push('/')
             }
+            else{
+                alert(res.message)
+            }
         }
     }
 }

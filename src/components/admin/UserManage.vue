@@ -66,9 +66,8 @@
           <b-button v-if="row.item.role !== 'ADMIN'" size="sm" @click="changeRole(row.item.id - 1)">Change</b-button>
         </template>
         <template #cell(ban)="row">
-          <b-button size="sm" @click="ban(row.item.id - 1)">
-            <b-button size="sm">Ban</b-button>
-          </b-button>
+          <b-button v-if="user.role !== 'ADMIN' && user.status !== 'BAN'" size="sm" @click="authorize(row.item,-1)">Ban</b-button>
+          <b-button v-if="user.role !== 'ADMIN' && user.status === 'BAN'" size="sm" @click="authorize(row.item,1)">Un ban</b-button>
         </template>
 
         <!-- detail row -->
@@ -92,6 +91,7 @@
 
 <script>
 import UserApi from "@/store/UserApi"
+import AuthUser from '@/store/AuthUser'
 export default {
   data() {
     return {
@@ -183,8 +183,26 @@ export default {
         }
         }
     },
-    ban(index){
-
+    async authorize(user,check){
+        let payload = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            balance_amount: user.balance_amount,
+            tell: user.tell,
+            status: (check === 1) ? "AUTHORIZE":"BAN"
+        }
+        let res = await AuthUser.dispatch('authorize',payload)
+        if(res.success){
+            if(check === 1){
+                alert('authorize complete')
+            }
+            else{
+                alert('ban complete')
+            }
+            this.fetchData()
+        }
     }
   },
   async created() {

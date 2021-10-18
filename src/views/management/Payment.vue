@@ -28,6 +28,13 @@ import UserApi from "../../store/UserApi";
 import ItemApi from "../../store/ItemApi";
 import ItemService from "../../services/ItemService";
 import OrderApi from "../../store/OrderApi";
+import OrderService from "../services/OrderService";
+import AuthService from "../services/AuthService";
+import AuthUser from '../store/AuthUser'
+import UserApi from "../store/UserApi";
+import ItemApi from "../store/ItemApi";
+import ItemService from "../services/ItemService";
+import OrderApi from "../store/OrderApi";
 export default {
   components: {
             HeadBar
@@ -46,16 +53,19 @@ export default {
   },
   methods: {
     async buy() {
-      this.user = AuthService.getUser();
+      this.user = AuthUser.getters.user
       if (this.user.balance_amount >= this.order.amount) {
         this.user.balance_amount -= this.order.amount;
         let payload = {
           id: this.user.id,
           name: this.user.name,
           email: this.user.email,
+          address: this.user.address,
+          tell: this.user.tell,
           balance_amount: this.user.balance_amount,
-          role: this.user.role
-        };
+          role: this.user.role,
+          status: "AUTHORIZE"
+        }
         let res = await UserApi.dispatch("editData", payload);
         if (res.success) {
           this.order.status = "ชำระเงินแล้ว";

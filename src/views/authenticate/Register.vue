@@ -20,22 +20,14 @@
               <label for="password_confirmation">Confirme Password </label>
               <input v-model="form.password_confirmation" type="password" placeholder="confirm password" autocomplete="off">
           </div>
-          <!-- <div>
-              <label for="gender">Gender</label>
-              <input v-model="form.gender" type="text" placeholder="Gender" autocomplete="off">
-          </div>
-          <div>
-              <label for="birthday">Birthday</label>
-              <input v-model="form.birthday" type="date" placeholder="Birthday" autocomplete="off">
-          </div>
           <div>
               <label for="address">Address</label>
-              <input v-model="form.address" type="text" placeholder="Address" autocomplete="off">
+              <textarea v-model="form.address" name="address" id="" cols="30" rows="10"></textarea>
           </div>
           <div>
               <label for="tell">Phone Number</label>
               <input v-model="form.tell" type="text" placeholder="Phone Number" autocomplete="off">
-          </div> -->
+          </div>
 
           <div>
               <button type="submit">Register</button>
@@ -58,10 +50,8 @@ export default {
                 email:"",
                 password:"",
                 password_confirmation:"",
-                // gender:"",
-                // birthday:"",
-                // address:"",
-                // tell:""
+                address:"",
+                tell:""
             }
         }
     },
@@ -71,8 +61,11 @@ export default {
             if(res.success){
                 this.$router.push('/')
             }
+            else{
+                alert(JSON.stringify(this.form))
+                // alert(res.message)
+            }
         }
     }
-
 }
 </script>

@@ -26,6 +26,7 @@
             <b-dropdown-item class="summary-1" href="/logout" v-if="isLogin === true">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
+        <label for="balance_amount">Amount: {{ user.balance_amount }}</label>
       </b-collapse>
     </b-navbar>
   </div>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import AuthService from "@/services/AuthService.js";
+import AuthUser from "@/store/AuthUser"
 export default {
   data() {
     return {
@@ -42,14 +43,15 @@ export default {
     };
   },
   created() {
-    this.isLogin = AuthService.isAuthen();
-    this.user = AuthService.getUser();
+    this.isLogin = AuthUser.getters.isAuthen;
+    this.user = AuthUser.getters.user;
+    console.log('user: ',this.user)
+    console.log('isLogin: ',this.isLogin)
   },
 };
 </script>
 <style lang="scss" scoped>
 .header{
   background-color: rgb(76, 76, 245);
-
 }
 </style>
