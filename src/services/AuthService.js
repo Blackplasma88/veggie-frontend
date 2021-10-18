@@ -92,10 +92,9 @@ export default{
             }
         }catch(e){
             if(e.response.status === 422){
-                console.error(e.response.data.errors)
                 return{
                     success: false,
-                    message: e.response.data.message
+                    message: e.response.data.errors
                 }
             }
         }

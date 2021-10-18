@@ -1,14 +1,11 @@
-<template >
+<template>
     <div class="bg">
-        <div>
-            <head-bar></head-bar>
-            <b-button variant="success" v-if="role === 'ADMIN'" @click="manage()">Manage User</b-button><br>
-            <b-button @click="prepaid(50)">50</b-button>
-            <b-button @click="prepaid(100)">100</b-button><br>
-            <b-button @click="prepaid(500)">500</b-button><br>
-            <b-button @click="prepaid(1000)">1000</b-button><br>
-            <b-button variant="success" @click="deposit()">เติมเงิน</b-button>
-        </div>
+        <head-bar></head-bar>
+        <b-button @click="prepaid(50)">50</b-button>
+        <b-button @click="prepaid(100)">100</b-button><br>
+        <b-button @click="prepaid(500)">500</b-button><br>
+        <b-button @click="prepaid(1000)">1000</b-button><br>
+        <b-button variant="success" @click="deposit()">เติมเงิน</b-button>
     </div>
 </template>
 
@@ -67,7 +64,8 @@ import swal from 'sweetalert';
     }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
+@import '@/assets/cardCss.scss';
 .bg{
     background:#88D5D5;
     height: 100%;
