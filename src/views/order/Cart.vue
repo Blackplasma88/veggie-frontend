@@ -1,19 +1,19 @@
 <template>
   <div>
     <head-bar></head-bar>
-    <order-in-cart></order-in-cart>
+    <cart-order></cart-order>
   </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import OrderInCart from '@/components/OrderInCart.vue'
+import CartOrder from '@/components/CartOrder.vue'
 
 export default {
   name: 'Home',
   components: {
     HeadBar,
-    OrderInCart
+    CartOrder
   }
 }
 </script>

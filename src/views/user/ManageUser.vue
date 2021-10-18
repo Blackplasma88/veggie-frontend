@@ -1,17 +1,18 @@
 <template>
     <div>
         <head-bar></head-bar>
-        <manage-user></manage-user>
+        <user-manage></user-manage>
     </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import ManageUser from '@/components/admin/ManageUser'
+import UserManage from '@/components/admin/UserManage.vue'
+
     export default {
         components:{
             HeadBar,
-            ManageUser
+            UserManage
         }
     }
 </script>

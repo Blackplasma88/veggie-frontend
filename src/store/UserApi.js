@@ -89,7 +89,8 @@ export default new Vuex.Store({
           localStorage.setItem(auth_key, "{\"user\":" + JSON.stringify(res.data) + ",\"token\":\"" + 
             AuthService.getJwt() + "\"}") 
         return {
-            success: true
+            success: true,
+            data: res.data
         }
       }else{
         console.error(res)

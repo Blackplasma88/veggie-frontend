@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <b-navbar type="dark" variant="primary">
+  <div class="header">
+    <div class="container">
+    <b-navbar>
       <b-navbar-brand href="/">LOGO</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
@@ -28,6 +29,7 @@
       </b-collapse>
     </b-navbar>
   </div>
+  </div>
 </template>
 
 <script>
@@ -45,5 +47,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.header{
+  background-color: rgb(76, 76, 245);
 
-<style lang="scss" scoped></style>
+}
+</style>

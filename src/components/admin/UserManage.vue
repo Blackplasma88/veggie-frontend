@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-      <h2>List Vegetables</h2>
+      <h2>User Management</h2>
     <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
@@ -59,7 +59,15 @@
         <!-- button action -->
         <template #cell(actions)="row">
           <b-button size="sm" @click="row.toggleDetails">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
+            {{ row.detailsShowing ? "Hide" : "Show" }}
+          </b-button>
+        </template>
+        <template #cell(change)="row">
+          <b-button v-if="row.item.role !== 'ADMIN'" size="sm" @click="changeRole(row.item.id - 1)">Change</b-button>
+        </template>
+        <template #cell(ban)="row">
+          <b-button size="sm" @click="ban()">
+            <b-button size="sm">Ban</b-button>
           </b-button>
         </template>
 
@@ -68,18 +76,11 @@
           <b-card>
             <ul>
               <li>
-                  <h4>{{ row.item.name }}</h4>
+                  <h4>{{ "Order Number "+ row.item.id }}</h4>
                     <label for="">Name: {{ row.item.name }}</label><br> 
-                    <label for="">Price: {{ row.item.price }}</label><br>
-                    <label >Inventories: {{ row.item.inventories }}</label><br><br>
-                    <div>
-                      <button @click="decrease(row.index)">-</button>
-                      <input type="text" v-model="v[row.index]"/>
-                      <button @click="increase(row.index)">+</button>
-                    </div><br>
-                    <label for="price">ราคารวม : {{ price }} บาท</label>
-                    <b-button size="sm" @click="cart()">Card</b-button>
-                    <b-button size="sm" @click="buy()">Buy</b-button>
+                    <label for="">Email: {{ row.item.email }}</label><br>
+                    <label >Role: {{ row.item.role }}</label><br>
+                    <label >Balance: {{ row.item.balance_amount }}</label><br>
               </li>
             </ul>
           </b-card>
@@ -90,10 +91,7 @@
 </template>
 
 <script>
-import ItemApi from "@/store/ItemApi";
-import AuthService from '@/services/AuthService'
-import AuthUser from "../store/AuthUser";
-import OrderApi from "@/store/OrderApi";
+import UserApi from "@/store/UserApi"
 export default {
   data() {
     return {
@@ -101,29 +99,37 @@ export default {
       fields: [
         {
           key: "name",
-          label: "Vegetable name",
+          label: "Name",
           sortable: true,
           sortDirection: "desc",
         },
         {
-          key: "price",
-          label: "price",
+          key: "email",
+          label: "Email",
           sortable: true,
           sortDirection: "desc",
         },
         {
-          key: "inventories",
-          label: "inventories",
+          key: "role",
+          label: "Role",
           sortable: true,
-          sortDirection: "desc",
+          
         },
         {
-          key: "total_sales",
-          label: "total_sales",
+          key: "balance_amount",
+          label: "Balance amount",
+          sortable: true,
+          
+        },
+        {
+          key: "created_at",
+          label: "Created at",
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "actions", label: "Actions" },
+        { key: "actions", label: "Detail" },
+        { key: "change", label: "Change Role" },
+        { key: "ban", label: "Ban User" },
       ],
       totalRows: 1,
       currentPage: 1,
@@ -134,9 +140,6 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
-      pv: [],
-      v: [],
-      price: 0,
     };
   },
   computed: {
@@ -153,79 +156,40 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    async buy() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
+    async changeRole(index){
+        if(this.items[index].role === 'CUSTOMER'){
+            let payload = {
+            id: this.items[index].id,
+            name: this.items[index].name,
+            email: this.items[index].email,
+            balance_amount: this.items[index].balance_amount,
+            role: 'OFFICER'
+        };
+        let res = await UserApi.dispatch("editData", payload);
+        if(res.success){
+            location.reload();
         }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch('addData',payload)
-      if (res.success) {
-        let id = res.data.id;
-        this.$router.push({name : 'Payment',params:{ id }});
-      }
+        }else if(this.items[index].role === 'OFFICER'){
+            let payload = {
+            id: this.items[index].id,
+            name: this.items[index].name,
+            email: this.items[index].email,
+            balance_amount: this.items[index].balance_amount,
+            role: 'CUSTOMER'
+        };
+        let res = await UserApi.dispatch("editData", payload);
+        if(res.success){
+            location.reload();
+        }
+        }
+    },
+    ban(){
 
-      
-    },
-    async cart() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
-        }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch("addData", payload);
-      if (res.success) {
-        this.$router.push("/cart");
-      }
-    },
-    increase(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.v[index] < this.items[index].inventories) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] + 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
-    decrease(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.price > 0 && this.v[index] > 0) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] - 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
+    }
   },
   async created() {
-    if (!AuthUser.getters.isAuthen) {
-      alert("Restricted Area");
-      this.$router.push("/login");
-    }
-    await ItemApi.dispatch("fetchData");
-    this.items = ItemApi.getters.data.data;
-    for (var i in this.items) {
-      this.v.push(0);
-      this.pv.push(0);
-    }
+    await UserApi.dispatch('fetchData')
+    this.items = UserApi.getters.data
     this.totalRows = this.items.length;
   }
 };

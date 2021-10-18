@@ -16,6 +16,10 @@
               </b-input-group-append>
             </b-input-group>
           </b-form-group>
+          <div class="mt-1">
+            <label for="">Add Vegetable : </label>
+            <b-button class="success" @click="addItem()">Add</b-button>
+          </div>
         </b-col>
 
           <!-- tab sort -->
@@ -57,9 +61,9 @@
         </template>
 
         <!-- button action -->
-        <template #cell(actions)="row">
+        <template #cell(manage)="row">
           <b-button size="sm" @click="row.toggleDetails">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
+            {{ row.detailsShowing ? "cancel" : "manage" }} 
           </b-button>
         </template>
 
@@ -68,18 +72,18 @@
           <b-card>
             <ul>
               <li>
-                  <h4>{{ row.item.name }}</h4>
+                  <h3>{{ row.item.name }}</h3>
                     <label for="">Name: {{ row.item.name }}</label><br> 
+                    <label for="">ชื่อที่ต้องการแก้ไข : </label>
+                    <input type="text" placeholder="Name">
+                    <b-button>OK</b-button><br><br>
                     <label for="">Price: {{ row.item.price }}</label><br>
-                    <label >Inventories: {{ row.item.inventories }}</label><br><br>
-                    <div>
-                      <button @click="decrease(row.index)">-</button>
-                      <input type="text" v-model="v[row.index]"/>
-                      <button @click="increase(row.index)">+</button>
-                    </div><br>
-                    <label for="price">ราคารวม : {{ price }} บาท</label>
-                    <b-button size="sm" @click="cart()">Card</b-button>
-                    <b-button size="sm" @click="buy()">Buy</b-button>
+                    <label for="">ราคาที่ต้องการแก้ไข : </label>
+                    <input type="text" placeholder="price"><br><br>
+                    <label >Inventories: {{ row.item.inventories }}</label><br>
+                    <label for="price">จำนวนที่ต้องการแก้ไข : </label>
+                    <input type="text" placeholder="price"><br>
+                    <b-button size="sm" @click="updateInven(row.item.id)">Card</b-button>
               </li>
             </ul>
           </b-card>
@@ -91,9 +95,7 @@
 
 <script>
 import ItemApi from "@/store/ItemApi";
-import AuthService from '@/services/AuthService'
-import AuthUser from "../store/AuthUser";
-import OrderApi from "@/store/OrderApi";
+import AuthUser from "@/store/AuthUser";
 export default {
   data() {
     return {
@@ -123,7 +125,7 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "actions", label: "Actions" },
+        { key: "manage", label: "Manage" },
       ],
       totalRows: 1,
       currentPage: 1,
@@ -134,9 +136,6 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
-      pv: [],
-      v: [],
-      price: 0,
     };
   },
   computed: {
@@ -153,67 +152,24 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    async buy() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
+    addItem() {
+      this.$router.push("/add-item");
+    },
+    async updateInven(index){
+        this.addTotal = parseInt(this.addTotal)
+        let value = this.list[index];
+        if(this.addTotal > 0){
+            let payload = {
+            id: value.id,
+            inventories: value.inventories + this.addTotal,
+            total_sales: value.total_sales
+            };
+            let res = await ItemApi.dispatch('editData',payload)
+            if(res.success) {
+                location.reload();
+            }
         }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch('addData',payload)
-      if (res.success) {
-        let id = res.data.id;
-        this.$router.push({name : 'Payment',params:{ id }});
-      }
-
-      
-    },
-    async cart() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
-        }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch("addData", payload);
-      if (res.success) {
-        this.$router.push("/cart");
-      }
-    },
-    increase(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.v[index] < this.items[index].inventories) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] + 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
-    decrease(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.price > 0 && this.v[index] > 0) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] - 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
+    }
   },
   async created() {
     if (!AuthUser.getters.isAuthen) {
@@ -222,10 +178,6 @@ export default {
     }
     await ItemApi.dispatch("fetchData");
     this.items = ItemApi.getters.data.data;
-    for (var i in this.items) {
-      this.v.push(0);
-      this.pv.push(0);
-    }
     this.totalRows = this.items.length;
   }
 };

@@ -1,17 +1,18 @@
 <template>
     <div>
         <head-bar></head-bar>
-        <manage-veg></manage-veg>
+        <veg-manage></veg-manage>
     </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import ManageVeg from '@/components/officer/ManageVeg'
+import VegManage from '@/components/officer/VegManage.vue'
+
     export default {
         components:{
             HeadBar,
-            ManageVeg
+            VegManage
         }
     }
 </script>

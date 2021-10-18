@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-      <h2>List Vegetables</h2>
+      <h2>Order in cart</h2>
     <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
@@ -59,8 +59,11 @@
         <!-- button action -->
         <template #cell(actions)="row">
           <b-button size="sm" @click="row.toggleDetails">
-            {{ row.detailsShowing ? "Hide" : "Show" }} Details
+            {{ row.detailsShowing ? "Hide" : "Show" }}
           </b-button>
+        </template>
+        <template #cell(manage)="row">
+          <b-button size="sm" @click="manage(row.item.id)">manage</b-button>
         </template>
 
         <!-- detail row -->
@@ -68,18 +71,11 @@
           <b-card>
             <ul>
               <li>
-                  <h4>{{ row.item.name }}</h4>
-                    <label for="">Name: {{ row.item.name }}</label><br> 
-                    <label for="">Price: {{ row.item.price }}</label><br>
-                    <label >Inventories: {{ row.item.inventories }}</label><br><br>
-                    <div>
-                      <button @click="decrease(row.index)">-</button>
-                      <input type="text" v-model="v[row.index]"/>
-                      <button @click="increase(row.index)">+</button>
-                    </div><br>
-                    <label for="price">ราคารวม : {{ price }} บาท</label>
-                    <b-button size="sm" @click="cart()">Card</b-button>
-                    <b-button size="sm" @click="buy()">Buy</b-button>
+                  <h4>{{ "Order Number "+ row.item.id }}</h4>
+                    <label for="">Data: {{ row.item.data }}</label><br> 
+                    <label for="">Amount: {{ row.item.amount }}</label><br>
+                    <label >Status: {{ row.item.status }}</label><br>
+                    <label >Add when: {{ row.item.created_at }}</label><br>
               </li>
             </ul>
           </b-card>
@@ -90,9 +86,7 @@
 </template>
 
 <script>
-import ItemApi from "@/store/ItemApi";
 import AuthService from '@/services/AuthService'
-import AuthUser from "../store/AuthUser";
 import OrderApi from "@/store/OrderApi";
 export default {
   data() {
@@ -100,30 +94,31 @@ export default {
       items: [],
       fields: [
         {
-          key: "name",
-          label: "Vegetable name",
+          key: "data",
+          label: "Data in order",
           sortable: true,
           sortDirection: "desc",
         },
         {
-          key: "price",
-          label: "price",
+          key: "amount",
+          label: "Amount",
           sortable: true,
           sortDirection: "desc",
         },
         {
-          key: "inventories",
-          label: "inventories",
+          key: "status",
+          label: "Status",
           sortable: true,
-          sortDirection: "desc",
+          
         },
         {
-          key: "total_sales",
-          label: "total_sales",
+          key: "created_at",
+          label: "Buy when",
           sortable: true,
           sortDirection: "desc",
         },
-        { key: "actions", label: "Actions" },
+        { key: "actions", label: "Detail" },
+        { key: "manage", label: "Manage" },
       ],
       totalRows: 1,
       currentPage: 1,
@@ -134,9 +129,6 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
-      pv: [],
-      v: [],
-      price: 0,
     };
   },
   computed: {
@@ -153,78 +145,17 @@ export default {
       this.totalRows = filteredItems.length;
       this.currentPage = 1;
     },
-    async buy() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
-        }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch('addData',payload)
-      if (res.success) {
-        let id = res.data.id;
-        this.$router.push({name : 'Payment',params:{ id }});
-      }
-
-      
-    },
-    async cart() {
-      // add item to order table
-      let tmp = [];
-      for (let i = 0; i < this.v.length; i++) {
-        if (this.v[i] !== 0) {
-          let data = this.items[i].id + " " + this.items[i].name + " : " + this.v[i] + " ขีด";
-          tmp.push(data);
-        }
-      }
-      let payload = {
-        user_id: AuthService.getUser().id,
-        text: tmp.join(),
-        amount: this.price,
-        status: "รอชำระเงิน",
-      };
-      let res = await OrderApi.dispatch("addData", payload);
-      if (res.success) {
-        this.$router.push("/cart");
-      }
-    },
-    increase(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.v[index] < this.items[index].inventories) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] + 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
-    decrease(index) {
-      this.v[index] = parseInt(this.v[index]);
-      if (this.price > 0 && this.v[index] > 0) {
-        this.price -= this.pv[index] * this.items[index].price;
-        this.v[index] = this.v[index] - 1;
-        this.price += this.v[index] * this.items[index].price;
-        this.pv[index] = this.v[index];
-      }
-    },
+    async manage(id){
+        this.$router.push({ name: "ChangeStatusOrder", params: { id } });
+    }
   },
   async created() {
-    if (!AuthUser.getters.isAuthen) {
-      alert("Restricted Area");
-      this.$router.push("/login");
-    }
-    await ItemApi.dispatch("fetchData");
-    this.items = ItemApi.getters.data.data;
-    for (var i in this.items) {
-      this.v.push(0);
-      this.pv.push(0);
+    await OrderApi.dispatch("fetchData");
+    let tmp = OrderApi.getters.data.data;
+    for(let i in tmp){
+      if(tmp[i].status !== "รอชำระเงิน"){
+        this.items.push(tmp[i])
+      }
     }
     this.totalRows = this.items.length;
   }
