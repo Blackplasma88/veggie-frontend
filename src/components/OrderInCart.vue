@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mt-5">
     List Orders
     <table class="table table-boradered">
       <thead>
