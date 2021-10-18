@@ -98,6 +98,26 @@ export default new Vuex.Store({
         console.error(res)
       }
     },
+    async prepaid({commit},payload){
+      let headers = AuthService.getApiHeader()
+      let url = api_endpoint + '/api/users/' + payload.id
+      let body = {
+        name: payload.name,
+        email: payload.email,
+        address: payload.address,
+        tell: payload.tell,
+        balance_amount: payload.balance_amount,
+        role: payload.role,
+        status: payload.status
+      }
+      let res = await Axios.put(url,body,headers)
+      if(res.status === 200){
+        return {
+          success: true,
+          data: res.data
+        }
+      }
+    }
   },
   modules: {
   }

@@ -29,6 +29,9 @@ export default new Vuex.Store({
       state.user = ""
       state.jwt = ""
       state.isAuthen = false
+    },
+    setData(state,payload){
+      state.user = payload
     }
   },
   actions: {
@@ -71,6 +74,9 @@ export default new Vuex.Store({
         }
       }
     },
+    setData({commit},payload){
+      commit('setData',payload)
+    }
   },
   getters: {
     user: (state) => state.user,

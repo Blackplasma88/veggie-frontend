@@ -54,6 +54,7 @@ export default new Vuex.Store({
       let url = api_endpoint + "/api/items/" + payload.id
       let body = {
         id: payload.id,
+        name: payload.name,
         inventories: payload.inventories,
         total_sales: payload.total_sales,
       }

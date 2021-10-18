@@ -72,22 +72,28 @@
           <b-card>
             <ul>
               <li>
-                <img :src="row.item.image_path" alt="" width="210" height="180"><br>
-                <input type="file" @change="onFileSelected" />
+                <img :src="row.item.image_path" alt="" width="210" height="180"><br><br>
+                <input v-if="idit === 1" type="file" @change="onFileSelected" />
                 <b-button class="mt-1" @click="upload(row.item.id)">change picture</b-button><br><br>
-                  <h3>{{ row.item.name }}</h3>
+
+                  <h2>{{ row.item.name }}</h2><br>
                     <label for="">Name: {{ row.item.name }}</label><br> 
-                    <label for="">ชื่อที่ต้องการแก้ไข : </label>
-                    <input type="text" placeholder="Name">
-                    <b-button class="">OK</b-button><br><br>
+                    <label v-if="idit === 1" for="">ชื่อที่ต้องการแก้ไข : </label>
+                    <input v-if="idit === 1" type="text" placeholder="Name" v-model="form.name">
+
                     <label for="">Price: {{ row.item.price }}</label><br>
-                    <label for="">ราคาที่ต้องการแก้ไข : </label>
-                    <input type="text" placeholder="price">
-                    <b-button>OK</b-button><br><br>
+                    <label v-if="idit === 1" for="">ราคาที่ต้องการแก้ไข : </label>
+                    <input v-if="idit === 1" type="text" placeholder="price" v-model="form.price">
+
                     <label >Inventories: {{ row.item.inventories }}</label><br>
-                    <label for="price">จำนวนที่ต้องการแก้ไข : </label>
-                    <input type="text" placeholder="price">
-                    <b-button class="" @click="updateInven(row.item.id)">OK</b-button><br><br>
+                    <label v-if="idit === 1" for="price">จำนวนที่ต้องการแก้ไข : </label>
+                    <input v-if="idit === 1" type="text" placeholder="inventories" v-model="form.inventories">
+
+                    <div><br>
+                      <b-button v-if="idit === 0" @click="changeFormValue(row.item, 0)">Edit</b-button>
+                      <b-button v-if="idit === 1" @click="updateValue(row.item.id - 1)">Update</b-button>
+                      <b-button v-if="idit === 1" @click="changeFormValue(row.item, 1)">Cancel</b-button>
+                    </div>
               </li>
             </ul>
           </b-card>
@@ -143,6 +149,12 @@ export default {
       filter: null,
       filterOn: [],
       image:'',
+      idit:0,
+      form:{
+        name:'',
+        price:'',
+        inventories:''
+      }
     };
   },
   computed: {
@@ -165,13 +177,30 @@ export default {
     addItem() {
       this.$router.push("/add-item");
     },
-    async updateInven(index){
-        this.addTotal = parseInt(this.addTotal)
-        let value = this.list[index];
-        if(this.addTotal > 0){
+    changeFormValue(user, id){
+      if(id === 0){
+        this.idit = 1
+        this.form.name = user.name;
+        this.form.price = user.price;
+        this.form.inventories = user.inventories;
+      }else{
+        this.idit = 0
+        this.form = {
+        name:'',
+        price:'',
+        inventories:''
+        }
+      }
+    },
+    async updateValue(index){
+        let addTotal = parseInt(this.form.inventories)
+        let value = this.items[index];
+        if(addTotal > 0){
             let payload = {
             id: value.id,
-            inventories: value.inventories + this.addTotal,
+            name: this.form.name,
+            inventories: this.form.inventories,
+            price: this.form.price,
             total_sales: value.total_sales
             };
             let res = await ItemApi.dispatch('editData',payload)

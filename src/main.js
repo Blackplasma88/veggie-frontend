@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueSwal from 'vue-swal'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -10,6 +11,7 @@ import VueAxios from 'vue-axios'
 import Axios from 'axios'
 
 Vue.use(VueAxios,Axios)
+Vue.use(VueSwal)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 

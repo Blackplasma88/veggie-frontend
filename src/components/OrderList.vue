@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import AuthService from '@/services/AuthService'
+import AuthUser from '@/store/AuthUser'
 import OrderApi from "@/store/OrderApi";
 export default {
   data() {
@@ -149,7 +149,7 @@ export default {
     await OrderApi.dispatch("fetchData");
     let tmp = OrderApi.getters.data.data;
     for(let i in tmp){
-      if(tmp[i].user_id === AuthService.getUser().id && tmp[i].status !== "รอชำระเงิน"){
+      if(tmp[i].user_id === AuthUser.getters.user.id && tmp[i].status !== "รอชำระเงิน"){
         this.items.push(tmp[i])
       }
     }

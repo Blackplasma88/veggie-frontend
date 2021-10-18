@@ -1,27 +1,30 @@
 <template>
-    <div>
+    <div >
         <head-bar></head-bar>
-        <start></start>
-        <veg-pop></veg-pop>
-        <food-pop></food-pop>
+        <section class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <h1>Vegetables Marget</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import Start from '@/components/public/Start'
-import VegPop from '@/components/public/VegPop'
-import FoodPop from '@/components/public/FoodPop'
     export default {
         components: {
             HeadBar,
-            Start,
-            VegPop,
-            FoodPop
         }
     }
 </script>
 
 <style lang="scss" scoped>
-
+.main{
+    background: url(../assets/images/bg-1.jpg)no-repeat;
+    
+}
 </style>

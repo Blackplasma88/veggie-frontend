@@ -1,8 +1,8 @@
-<template>
-  <div>
+<template class='background'>
+  <div class="container">
       <head-bar></head-bar>
-      <h1>LOG IN</h1>
-      <form @submit.prevent="login"> 
+      <form class="form-1" @submit.prevent="login">
+          <h1>LOG IN</h1> 
           <div class="form-group row">
               <label for="staticEmail" class="col-sm-2 col-form-label">Email </label>
               <div class="col-sm-10">
@@ -27,6 +27,7 @@
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
 import AuthUser from "@/store/AuthUser"
+import swal from 'sweetalert';
 export default {
     components: {
             HeadBar
@@ -44,15 +45,18 @@ export default {
             let res = await AuthUser.dispatch('login', this.form)
             if(res.success){
                 this.$router.push('/')
+                swal('login success','','success')
             }
             else{
-                alert(res.message)
+                // alert(res.message)
+                swal(res.message,'','warning')
             }
         }
     }
 }
 </script>
 
-<style>
+<style scoped lang="scss">
+@import '@/assets/loginCss.scss';
 
 </style>

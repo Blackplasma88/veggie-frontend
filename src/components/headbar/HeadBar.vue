@@ -27,7 +27,7 @@
             <b-dropdown-item class="summary-1" href="/logout" v-if="isLogin === true">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <label for="balance_amount">Amount: {{ user.balance_amount }}</label>
+        <label v-if="isLogin === true" for="balance_amount">Amount: {{ user.balance_amount }}</label>
       </b-collapse>
     </b-navbar>
   </div>
@@ -51,6 +51,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header{
-  background-color: rgb(76, 76, 245);
+  background-color: #FFBED2;
 }
 </style>
