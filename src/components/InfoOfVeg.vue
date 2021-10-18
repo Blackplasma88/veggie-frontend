@@ -15,13 +15,6 @@
         <button v-if="this.edit === 1" @click="editVeggie()">Confirm</button>
         <button v-if="this.edit === 1" @click="closeForm()">Cancel</button>
         <button @click="deleteVeggie()">Delete</button><br><br><br>
-
-        <!-- test new system add veggie to cart -->
-        <button id="deBtn" @click="decrease()">-</button>
-        <label for="v">{{ form.value }}</label>
-        <!-- <input type="number" v-model="form.value"> -->
-        <button id="inBtn" @click="increase()">+</button><br><br>
-        <button @click="addOrder()">add veggie</button>
     </div>
 </template>
 
@@ -37,12 +30,12 @@ import ItemApi from '@/store/ItemApi'
                     inventories:0
                 },
                 item: '',
-                id: 0,
+                // id: 0,
                 edit: 0,
-                list: [],
-                v: [],
-                index: 0,
-                price: 0
+                // list: [],
+                // v: [],
+                // index: 0,
+                // price: 0
             }
         },
         async created(){
@@ -51,23 +44,23 @@ import ItemApi from '@/store/ItemApi'
             this.item = item.data
 
             // storage item
-            this.list = JSON.parse(localStorage.getItem('list'))
+            // this.list = JSON.parse(localStorage.getItem('list'))
 
             // set index for add v
-            let x = this.list.findIndex(x => x.name === this.item.name)
-            this.index = x
+            // let x = this.list.findIndex(x => x.name === this.item.name)
+            // this.index = x
 
             // load v 
-            this.v = Array(this.list.length).fill(0) 
-            this.v = JSON.parse(localStorage.getItem('v'))
+            // this.v = Array(this.list.length).fill(0) 
+            // this.v = JSON.parse(localStorage.getItem('v'))
 
             // set data
-            this.price = JSON.parse(localStorage.getItem('price'))
-            this.form.value = this.v[this.index]
-            console.log('v: ',this.v)
-            console.log('id: ',this.id)
-            console.log('value: ',this.form.value)
-            console.log('price: ',this.price)
+            // this.price = JSON.parse(localStorage.getItem('price'))
+            // this.form.value = this.v[this.index]
+            // console.log('v: ',this.v)
+            // console.log('id: ',this.id)
+            // console.log('value: ',this.form.value)
+            // console.log('price: ',this.price)
         },
         methods:{
             openForm(){
@@ -101,33 +94,33 @@ import ItemApi from '@/store/ItemApi'
                     this.$router.push('/')
                 }
             },
-            increase(){
-                if(this.form.value + 1 <= this.item.inventories){
-                    this.form.value +=1
-                    this.v[this.index] += 1
-                    document.getElementById('deBtn').disabled = false
-                }
-                else{
-                    document.getElementById('inBtn').disabled = true
-                }
-            },
-            decrease(){
-                if(this.form.value - 1 >= 0){
-                    this.form.value -=1
-                    this.v[this.index] -= 1
-                    document.getElementById('inBtn').disabled = false
-                }
-                else{
-                    document.getElementById('deBtn').disabled = true
-                }
-            },
-            async addOrder(){
-                this.price += this.form.value * this.item.price
-                localStorage.setItem('price',JSON.stringify(this.price))
-                localStorage.setItem('v',JSON.stringify(this.v))
-                this.$router.push("/")
-                console.log(this.v)
-            }
+            // increase(){
+            //     if(this.form.value + 1 <= this.item.inventories){
+            //         this.form.value +=1
+            //         this.v[this.index] += 1
+            //         document.getElementById('deBtn').disabled = false
+            //     }
+            //     else{
+            //         document.getElementById('inBtn').disabled = true
+            //     }
+            // },
+            // decrease(){
+            //     if(this.form.value - 1 >= 0){
+            //         this.form.value -=1
+            //         this.v[this.index] -= 1
+            //         document.getElementById('inBtn').disabled = false
+            //     }
+            //     else{
+            //         document.getElementById('deBtn').disabled = true
+            //     }
+            // },
+            // async addOrder(){
+            //     this.price += this.form.value * this.item.price
+            //     localStorage.setItem('price',JSON.stringify(this.price))
+            //     localStorage.setItem('v',JSON.stringify(this.v))
+            //     this.$router.push("/")
+            //     console.log(this.v)
+            // }
         }
     }
 </script>

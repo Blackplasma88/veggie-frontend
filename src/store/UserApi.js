@@ -77,11 +77,13 @@ export default new Vuex.Store({
         let headers = AuthService.getApiHeader()
       let url = api_endpoint + "/api/users/" + payload.id 
       let body = {  
-        id: payload.id,
-        name: payload.name,
-        email: payload.email,
-        balance_amount:payload.balance_amount,
-        role: payload.role
+          name: payload.name,
+          email: payload.email,
+          address: payload.address,
+          tell: payload.tell,
+          balance_amount: payload.balance_amount,
+          role: payload.role,
+          status: "AUTHORIZE"
       }
       let res = await Axios.put(url,body,headers) 
       if(res.status === 200){
@@ -94,7 +96,7 @@ export default new Vuex.Store({
       }else{
         console.error(res)
       }
-    }
+    },
   },
   modules: {
   }

@@ -16,6 +16,10 @@ const initialState = {
 export default new Vuex.Store({
   state: initialState,
   mutations: {
+    editSuccess(state, user){
+      state.user = user
+      state.isAuthen = true
+    },
     loginSuccess(state, user, jwt){
       state.user = user
       state.jwt = jwt
@@ -42,13 +46,31 @@ export default new Vuex.Store({
       }
       return res
     },
+    async editProfile({commit},payload){
+      let res = await AuthService.editProfile(payload)
+      if(res.success){
+        commit('editSuccess', res.data)
+        return {
+          success: true,
+          data: res.data
+        }
+      }
+    },
     async logout(){
         AuthService.logout()
         this.commit('logoutSuccess')
         return {
           success: true,
       }
-    }
+    },
+    async authorize({commit},payload){
+      let res = await AuthService.authorize(payload)
+      if(res.success){
+        return {
+          success: true
+        }
+      }
+    },
   },
   getters: {
     user: (state) => state.user,

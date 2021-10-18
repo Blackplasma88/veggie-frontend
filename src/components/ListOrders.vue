@@ -18,7 +18,7 @@
             <td>{{ order.amount }}</td>
             <td>{{ order.status }}</td>
             <td>
-                <button>ข้อมูล</button>
+                <button @click="showData(order)">ข้อมูล</button>
             </td>
         </tr>
       </tbody>
@@ -29,6 +29,7 @@
 <script>
 import OrderApi from "@/store/OrderApi";
 import AuthService from '@/services/AuthService'
+import AuthUser from '@/store/AuthUser'
 export default {
   data() {
     return {
@@ -36,24 +37,29 @@ export default {
     };
   },
   async created() {
-    await OrderApi.dispatch("fetchData");
-    let tmp = OrderApi.getters.data.data;
+    await OrderApi.dispatch("fetchData")
+    let tmp = OrderApi.getters.data.data
     for(let i in tmp){
-      if(tmp[i].user_id === AuthService.getUser().id && tmp[i].status !== "รอชำระเงิน"){
-        this.list.push(tmp[i])
+      if(AuthUser.getters.user.role === "CUSTOMER"){
+        if(tmp[i].user_id === AuthUser.getters.user.id && tmp[i].status !== "รอชำระเงิน"){
+          this.list.push(tmp[i])
+        }
+      }
+      else if(AuthUser.getters.user.role === "OFFICER"){
+        this.list = tmp
       }
     }
     // for (var i in this.list) {
     //   this.v.push(0);
   },
   methods:{
-    // async deleteOrder(order,index){
-    //   let res = await OrderApi.dispatch('deleteOrder',order.id)
-    //   if(res.success){
-    //     alert('delete Order complete')
-    //     this.list.splice(index,1)
-    //   }
-    // }
+    async showData(order){
+      // let user = await AuthService.getUser(order.user_id)
+      // console.log('user: ',user)
+      // console.log("order: ",order)
+      let id = order.id
+      this.$router.push({ name: "ShowDataOrder", params: { id } });
+    }
   }
 }
 </script>

@@ -19,25 +19,26 @@
 
         <b-navbar-nav class="ml-auto" align="right">
           <b-nav-item-dropdown right text="User">
-            <b-dropdown-item href="/profile">Profile</b-dropdown-item>
-            <b-dropdown-item class="summary-1" href="/login"
+            <b-dropdown-item href="/profile" v-if="isLogin === true">Profile</b-dropdown-item>
+            <b-dropdown-item class="summary-1" href="/login" v-if="isLogin === false"
               >Login</b-dropdown-item
             >
-            <b-dropdown-item class="summary-1" href="/register"
+            <b-dropdown-item class="summary-1" href="/register" v-if="isLogin === false"
               >Register</b-dropdown-item
             >
-            <b-dropdown-item class="summary-1" href="/logout"
+            <b-dropdown-item class="summary-1" href="/logout" v-if="isLogin === true"
               >Logout</b-dropdown-item
             >
           </b-nav-item-dropdown>
         </b-navbar-nav>
+        <label for="balance_amount">Amount: {{ user.balance_amount }}</label>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
 
 <script>
-import AuthService from "@/services/AuthService.js";
+import AuthUser from "@/store/AuthUser"
 export default {
   data() {
     return {
@@ -46,8 +47,10 @@ export default {
     };
   },
   created() {
-    this.isLogin = AuthService.isAuthen();
-    this.user = AuthService.getUser();
+    this.isLogin = AuthUser.getters.isAuthen;
+    this.user = AuthUser.getters.user;
+    console.log('user: ',this.user)
+    console.log('isLogin: ',this.isLogin)
   },
 };
 </script>

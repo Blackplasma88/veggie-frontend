@@ -29,8 +29,9 @@
 </template>
 
 <script>
-import OrderApi from "@/store/OrderApi";
+import OrderApi from "@/store/OrderApi"
 import AuthService from '@/services/AuthService'
+import AuthUser from '@/store/AuthUser'
 export default {
   data() {
     return {
@@ -41,7 +42,7 @@ export default {
     await OrderApi.dispatch("fetchData");
     let tmp = OrderApi.getters.data.data;
     for(let i in tmp){
-      if(tmp[i].user_id === AuthService.getUser().id && tmp[i].status === "รอชำระเงิน"){
+      if(tmp[i].user_id === AuthUser.getters.user.id && tmp[i].status === "รอชำระเงิน"){
         this.list.push(tmp[i])
       }
     }

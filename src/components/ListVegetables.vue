@@ -3,7 +3,7 @@
     <h2>List Vegetables</h2>
     <input v-model="search" type="text" placeholder="search" />
     <b-button v-if="status === 0" @click="searchName()">Search</b-button>
-    <b-button v-if="status === 1" @click="closeSearch()">Cancel</b-button>
+    <b-button v-if="status === 1" @click="closeSearch()">Close</b-button>
     <b-button class="success" v-if="role === 'ADMIN' || role === 'OFFICER'" 
       @click="addItem()">Add Item</b-button>
     <table class="table table-bordered">
@@ -40,11 +40,11 @@
           <td>{{ it.price }}</td>
           <td>{{ it.inventories }}</td>
           <td>
-            <button id="btn" @click="decreaseInCart(listIndex[index], index)">
+            <button id="btn" @click="decrease(listIndex[index], index)">
               -
             </button>
             <input type="number" v-model="v[listIndex[index]]" />
-            <button id="btn1" @click="addInCard(listIndex[index], index)">
+            <button id="btn1" @click="increase(listIndex[index], index)">
               +
             </button>
           </td>
@@ -112,7 +112,7 @@ export default {
         }
       }
       let payload = {
-        user_id: AuthService.getUser().id,
+        user_id: AuthUser.getters.user.id,
         text: tmp.join(),
         amount: this.price,
         status: "รอชำระเงิน",
@@ -121,9 +121,7 @@ export default {
       if (res.success) {
         let id = res.data.id;
         this.$router.push({name : 'Payment',params:{ id }});
-      }
-
-      
+      }    
     },
     async cart() {
       // add item to order table
@@ -135,7 +133,7 @@ export default {
         }
       }
       let payload = {
-        user_id: AuthService.getUser().id,
+        user_id: AuthUser.getters.user.id,
         text: tmp.join(),
         amount: this.price,
         status: "รอชำระเงิน",

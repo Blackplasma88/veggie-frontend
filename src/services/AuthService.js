@@ -46,29 +46,31 @@ export default{
             }
             
         }catch(e){
-            if(e.response.status === 400){
-                console.error(e.response.data.message[0].messages[0].message)
+            if(e.response.status === 401){
                 return{
                     success: false,
-                    message: e.response.data.message[0].messages[0].message 
+                    message: "email or password incorrect"
+                }
+            }
+            else if(e.response.status === 402){
+                return{
+                    success: false,
+                    message: "You are banned"
                 }
             }
         }    
     },
     async register(payload){ 
-        // try{
+        try{
             let url = `${api_endpoint}/api/register`
             let body = {
                 name: payload.name,
                 email: payload.email,
                 password: payload.password,
                 password_confirmation: payload.password_confirmation,
-                // name: payload.name,
-                // gender: payload.gender,
-                // birthday: payload.birthday,
-                // address: payload.address,
-                // tell: payload.tell,
-                // role: "CUSTOMER"
+                address: payload.address,
+                tell: payload.tell,
+                role: "CUSTOMER"
             }
             let res = await Axios.post(url, body)
             if(res.statusText === 'Created'){
@@ -81,20 +83,38 @@ export default{
             }else{
                 console.log("NOT 200", res)
             }
-        // }catch(e){
-        //     if(e.response.status === 400){
-        //         console.error(e.response.data.message[0].messages[0].message)
-        //         return{
-        //             success: false,
-        //             message: e.response.data.message[0].messages[0].message 
-        //         }
-        //     }else{
-        //         return{
-        //             success: false,
-        //             message: "Unknown error: " + e.response.data
-        //         }
-        //     }
-        // }
+        }catch(e){
+            if(e.response.status === 422){
+                console.error(e.response.data.errors)
+                return{
+                    success: false,
+                    message: e.response.data.message
+                }
+            // }else{
+            //     return{
+            //         success: false,
+            //         message: "Unknown error: " + e.response.data
+            //     }
+            }
+        }
+    },
+    async editProfile(payload){
+        let headers = this.getApiHeader()
+        let url = api_endpoint + "/api/users/" + payload.id
+        let body = {
+            name: payload.name,
+            email: payload.email,
+            address: payload.address,
+            tell: payload.tell,
+            balance_amount: payload.balance_amount,
+            status: payload.status
+        }
+        let res = await Axios.put(url,body,headers)
+        if(res.status === 200){
+            return{
+                success: true
+            }
+        }
     },
     async logout(){
         let url = api_endpoint + "/api/logout"
@@ -104,6 +124,29 @@ export default{
         return {
             success: true,
         }
+    },
+    async authorize(payload){
+        let headers = this.getApiHeader()
+        let url = api_endpoint + '/api/users/' + payload.id
+        let body = {
+            name: payload.name,
+            email: payload.email,
+            address: payload.address,
+            tell: payload.tell,
+            status: payload.status,
+            balance_amount: payload.balance_amount
+        }
+        let res = await Axios.put(url,body,headers)
+        if(res.status === 200){
+            return {
+            success: true
+            }
+        }
+    },
+    async getUser(id){
+        let url = api_endpoint + '/api/users/' + id
+        let headers = this.getApiHeader()
+        let res = await Axios.get(url,headers)
+        return res.data
     }
-
 }
