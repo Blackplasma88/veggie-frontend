@@ -45,8 +45,6 @@ export default {
   created() {
     this.isLogin = AuthUser.getters.isAuthen;
     this.user = AuthUser.getters.user;
-    console.log('user: ',this.user)
-    console.log('isLogin: ',this.isLogin)
   },
 };
 </script>

@@ -134,7 +134,8 @@ export default{
             address: payload.address,
             tell: payload.tell,
             status: payload.status,
-            balance_amount: payload.balance_amount
+            balance_amount: payload.balance_amount,
+            role: payload.role
         }
         let res = await Axios.put(url,body,headers)
         if(res.status === 200){

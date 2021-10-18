@@ -83,7 +83,7 @@ export default new Vuex.Store({
           tell: payload.tell,
           balance_amount: payload.balance_amount,
           role: payload.role,
-          status: "AUTHORIZE"
+          status: payload.status
       }
       let res = await Axios.put(url,body,headers) 
       if(res.status === 200){

@@ -66,8 +66,8 @@
           <b-button v-if="row.item.role !== 'ADMIN'" size="sm" @click="changeRole(row.item.id - 1)">Change</b-button>
         </template>
         <template #cell(ban)="row">
-          <b-button v-if="user.role !== 'ADMIN' && user.status !== 'BAN'" size="sm" @click="authorize(row.item,-1)">Ban</b-button>
-          <b-button v-if="user.role !== 'ADMIN' && user.status === 'BAN'" size="sm" @click="authorize(row.item,1)">Un ban</b-button>
+          <b-button v-if="row.item.role !== 'ADMIN' && row.item.status !== 'BAN'" size="sm" @click="authorize(row.item,-1)">Ban</b-button>
+          <b-button v-if="row.item.role !== 'ADMIN' && row.item.status === 'BAN'" size="sm" @click="authorize(row.item,1)">Un ban</b-button>
         </template>
 
         <!-- detail row -->
@@ -80,6 +80,7 @@
                     <label for="">Email: {{ row.item.email }}</label><br>
                     <label >Role: {{ row.item.role }}</label><br>
                     <label >Balance: {{ row.item.balance_amount }}</label><br>
+                    <label >Status: {{ row.item.status }}</label><br>
               </li>
             </ul>
           </b-card>
@@ -127,6 +128,12 @@ export default {
           sortable: true,
           sortDirection: "desc",
         },
+        {
+          key: "status",
+          label: "Banned",
+          sortable: true,
+          sortDirection: "desc",
+        },
         { key: "actions", label: "Detail" },
         { key: "change", label: "Change Role" },
         { key: "ban", label: "Ban User" },
@@ -163,7 +170,10 @@ export default {
             name: this.items[index].name,
             email: this.items[index].email,
             balance_amount: this.items[index].balance_amount,
-            role: 'OFFICER'
+            address: this.items[index].address,
+            role: 'OFFICER',
+            tell: this.items[index].tell,
+            status:this.items[index].status
         };
         let res = await UserApi.dispatch("editData", payload);
         if(res.success){
@@ -175,7 +185,10 @@ export default {
             name: this.items[index].name,
             email: this.items[index].email,
             balance_amount: this.items[index].balance_amount,
-            role: 'CUSTOMER'
+            address: this.items[index].address,
+            role: 'CUSTOMER',
+            tell: this.items[index].tell,
+            status:this.items[index].status
         };
         let res = await UserApi.dispatch("editData", payload);
         if(res.success){
@@ -191,6 +204,7 @@ export default {
             address: user.address,
             balance_amount: user.balance_amount,
             tell: user.tell,
+            role: user.role,
             status: (check === 1) ? "AUTHORIZE":"BAN"
         }
         let res = await AuthUser.dispatch('authorize',payload)
@@ -201,7 +215,7 @@ export default {
             else{
                 alert('ban complete')
             }
-            this.fetchData()
+            location.reload()
         }
     }
   },
