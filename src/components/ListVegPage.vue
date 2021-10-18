@@ -68,6 +68,7 @@
           <b-card>
             <ul>
               <li>
+                <img :src="row.item.image_path" alt="" width="210" height="180">
                   <h4>{{ row.item.name }}</h4>
                     <label for="">Name: {{ row.item.name }}</label><br> 
                     <label for="">Price: {{ row.item.price }}</label><br>

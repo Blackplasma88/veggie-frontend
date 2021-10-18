@@ -72,19 +72,22 @@
           <b-card>
             <ul>
               <li>
-                <img :src="row.item.image_path" alt="" width="210" height="180">
+                <img :src="row.item.image_path" alt="" width="210" height="180"><br>
+                <input type="file" @change="onFileSelected" />
+                <b-button class="mt-1" @click="upload(row.item.id)">change picture</b-button><br><br>
                   <h3>{{ row.item.name }}</h3>
                     <label for="">Name: {{ row.item.name }}</label><br> 
                     <label for="">ชื่อที่ต้องการแก้ไข : </label>
                     <input type="text" placeholder="Name">
-                    <b-button>OK</b-button><br><br>
+                    <b-button class="">OK</b-button><br><br>
                     <label for="">Price: {{ row.item.price }}</label><br>
                     <label for="">ราคาที่ต้องการแก้ไข : </label>
-                    <input type="text" placeholder="price"><br><br>
+                    <input type="text" placeholder="price">
+                    <b-button>OK</b-button><br><br>
                     <label >Inventories: {{ row.item.inventories }}</label><br>
                     <label for="price">จำนวนที่ต้องการแก้ไข : </label>
-                    <input type="text" placeholder="price"><br>
-                    <b-button size="sm" @click="updateInven(row.item.id)">Card</b-button>
+                    <input type="text" placeholder="price">
+                    <b-button class="" @click="updateInven(row.item.id)">OK</b-button><br><br>
               </li>
             </ul>
           </b-card>
@@ -96,6 +99,7 @@
 
 <script>
 import ItemApi from "@/store/ItemApi";
+import AuthService from '@/services/AuthService'
 import AuthUser from "@/store/AuthUser";
 import Axios from 'axios'
 export default {
@@ -150,6 +154,9 @@ export default {
     },
   },
   methods: {
+    onFileSelected(event) {
+      this.image = event.target.files[0]
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
@@ -171,6 +178,18 @@ export default {
             if(res.success) {
                 location.reload();
             }
+        }
+    },
+    async upload(id){
+        let headers = AuthService.getApiHeader()
+        let url = "http://127.0.0.1:8000/api/item/upload-image"
+        let fd = new FormData();
+        fd.append('img',this.image);
+        fd.append('id',id);
+        let res = await Axios.post(url,fd)
+        if(res.status === 200){
+            alert('add veggie complete')
+            location.reload()
         }
     }
   },

@@ -12,7 +12,6 @@
         <br /><br />
       </div>
           <div>
-              <!-- <img v-show="imageUrl" :src="imageUrl" alt=""> -->
                 <input type="file" @change="onFileSelected" />
                 <button @click="addVeggie()">ADD VEGGIE</button>
           </div>
