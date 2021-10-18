@@ -28,6 +28,7 @@ import ItemApi from "../../store/ItemApi";
 import ItemService from "../../services/ItemService";
 import OrderApi from "../../store/OrderApi";
 import AuthUser from '../../store/AuthUser'
+import swal from 'sweetalert';
 export default {
   components: {
             HeadBar
@@ -91,10 +92,13 @@ export default {
             res = await ItemApi.dispatch('editData',payload)
           }
           if (res.success) {
-            alert("success");
-            this.$router.push("/orders");
+            swal('Buy success','','success')
+            this.$router.push("/orders")
           }
         }
+      }
+      else{
+        swal("Don't have enough money",'','warning')
       }
     },
   },

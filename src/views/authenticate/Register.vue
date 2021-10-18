@@ -1,32 +1,33 @@
 <template>
-    <div>
+    <div class="container">
         <head-bar></head-bar>
-        <h1>Register page</h1>
-        <form @submit.prevent="register"> 
+        
+        <form class="form-1" @submit.prevent="register"> 
+            <h1>Register</h1>
             <div>
-              <label for="email">Email </label>
+              <label class="label-1" for="email"><b>Email</b></label>
               <input v-model="form.email" type="text" placeholder="email" autocomplete="off">
           </div>
           <div>
-              <label for="name">Name</label>
+              <label class="label-2" for="name"><b>Name</b></label>
               <input v-model="form.name" type="text" placeholder="Name" autocomplete="off">
           </div>
 
           <div>
-              <label for="password">Password </label>
+              <label class="label-3" for="password"><b>Password</b></label>
               <input v-model="form.password" type="password" placeholder="password" autocomplete="off">
           </div>
           <div>
-              <label for="password_confirmation">Confirme Password </label>
+              <label class="label-4" for="password_confirmation"><b>Password confirmation</b></label>
               <input v-model="form.password_confirmation" type="password" placeholder="confirm password" autocomplete="off">
           </div>
           <div>
-              <label for="address">Address</label>
-              <textarea v-model="form.address" name="address" id="" cols="30" rows="10"></textarea>
+              <label class="label-5" for="address"><b>Address</b></label>
+              <input v-model="form.address" type="text" placeholder="address" autocomplete="off" size="40">
           </div>
           <div>
-              <label for="tell">Phone Number</label>
-              <input v-model="form.tell" type="text" placeholder="Phone Number" autocomplete="off">
+              <label class="label-6" for="tell"><b>Phone number</b></label>
+              <input v-model="form.tell" type="text" placeholder="Phone Number" autocomplete="off" size="20">
           </div>
 
           <div>
@@ -39,6 +40,7 @@
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
 import AuthUser from "@/store/AuthUser"
+import swal from 'sweetalert'
 export default {
     components: {
             HeadBar
@@ -51,7 +53,8 @@ export default {
                 password:"",
                 password_confirmation:"",
                 address:"",
-                tell:""
+                tell:"",
+                balance_amount: 0
             }
         }
     },
@@ -60,6 +63,7 @@ export default {
             let res = await AuthUser.dispatch('register', this.form)
             if(res.success){
                 this.$router.push('/')
+                swal('Register success','','success')
             }
             else{
                 alert(JSON.stringify(this.form))
@@ -69,3 +73,7 @@ export default {
     }
 }
 </script>
+
+<style scoped lang='scss'>
+@import '@/assets/registerCss.scss';
+</style>

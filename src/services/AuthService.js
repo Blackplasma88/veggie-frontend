@@ -58,6 +58,12 @@ export default{
                     message: "You are banned"
                 }
             }
+            else{
+                return{
+                    success: false,
+                    message: 'please fill email and password'
+                }
+            }
         }    
     },
     async register(payload){ 
@@ -70,6 +76,7 @@ export default{
                 password_confirmation: payload.password_confirmation,
                 address: payload.address,
                 tell: payload.tell,
+                balance_amount: 0,
                 role: "CUSTOMER"
             }
             let res = await Axios.post(url, body)
@@ -90,11 +97,6 @@ export default{
                     success: false,
                     message: e.response.data.message
                 }
-            // }else{
-            //     return{
-            //         success: false,
-            //         message: "Unknown error: " + e.response.data
-            //     }
             }
         }
     },
@@ -107,7 +109,8 @@ export default{
             address: payload.address,
             tell: payload.tell,
             balance_amount: payload.balance_amount,
-            status: payload.status
+            status: payload.status,
+            role: payload.role
         }
         let res = await Axios.put(url,body,headers)
         if(res.status === 200){

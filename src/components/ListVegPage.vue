@@ -78,7 +78,7 @@
                       <button @click="increase(row.index)">+</button>
                     </div><br>
                     <label for="price">ราคารวม : {{ price }} บาท</label>
-                    <b-button size="sm" @click="cart()">Card</b-button>
+                    <b-button size="sm" @click="cart()">Cart</b-button>
                     <b-button size="sm" @click="buy()">Buy</b-button>
               </li>
             </ul>
@@ -94,6 +94,7 @@ import ItemApi from "@/store/ItemApi";
 import AuthService from '@/services/AuthService'
 import AuthUser from "../store/AuthUser";
 import OrderApi from "@/store/OrderApi";
+import swal from 'sweetalert';
 export default {
   data() {
     return {
@@ -163,7 +164,7 @@ export default {
         }
       }
       let payload = {
-        user_id: AuthService.getUser().id,
+        user_id: AuthUser.getters.user.id,
         text: tmp.join(),
         amount: this.price,
         status: "รอชำระเงิน",
@@ -172,6 +173,7 @@ export default {
       if (res.success) {
         let id = res.data.id;
         this.$router.push({name : 'Payment',params:{ id }});
+
       }
 
       
@@ -186,7 +188,7 @@ export default {
         }
       }
       let payload = {
-        user_id: AuthService.getUser().id,
+        user_id: AuthUser.getters.user.id,
         text: tmp.join(),
         amount: this.price,
         status: "รอชำระเงิน",
@@ -194,6 +196,7 @@ export default {
       let res = await OrderApi.dispatch("addData", payload);
       if (res.success) {
         this.$router.push("/cart");
+        swal('add to cart complete','','success')
       }
     },
     increase(index) {

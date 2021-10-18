@@ -1,38 +1,42 @@
 <template>
-    <div>
+    <div class="container">
         <head-bar></head-bar>
-        <div>
-            <label for="name">Name : {{ profile.name }}</label>
-        </div>
-        <div>
-            <label for="email">Emaile : {{ profile.email }}</label>
-        </div>
-        <div>
-            <label v-if="edit === 0" for="address">Address: {{ profile.address }}</label>
-            <label v-if="edit === 1" for="address">Address: </label><br>
-            <textarea v-if="edit === 1" name="address" id="" cols="30" rows="10" v-model="form.address"></textarea>
-        </div>
-        <div>
-            <label for="tell">Phone number: {{ profile.tell }}</label>
-            <label v-if="edit === 1" for="tell">Phone number: </label>
-            <input v-if="edit === 1" type="text" v-model="form.tell">
-        </div>
-        <div>
-            <label for="create">Created at : {{ profile.created_at }}</label>
-        </div>
-        <div>
-            <label for="balance">Balance : {{ profile.balance_amount }}</label>
-        </div>
+        <div class="form-1">
+            <div>
+                <label for="name">Name : {{ profile.name }}</label>
+            </div>
+            <div>
+                <label for="email">Emaile : {{ profile.email }}</label>
+            </div>
+            <div>
+                <label v-if="edit === 0" for="address">Address: {{ profile.address }}</label>
+                <label v-if="edit === 1" for="address">Address: </label><br>
+                <input v-if="edit === 1" type="text" v-model="form.address" size="50">
+                <!-- <textarea v-if="edit === 1" name="address" id="" cols="30" rows="10" v-model="form.address"></textarea> -->
+            </div>
+            <div>
+                <label v-if="edit === 0" for="tell">Phone number: {{ profile.tell }}</label>
+                <label v-if="edit === 1" for="tell">Phone number: </label>
+                <input v-if="edit === 1" type="text" v-model="form.tell" size="10">
+            </div>
+            <div>
+                <label for="create">Created at : {{ profile.created_at }}</label>
+            </div>
+            <div>
+                <label for="balance">Balance : {{ profile.balance_amount }}</label>
+            </div>
 
-        <button v-if="edit === 0" @click="openForm()">Edit</button>
-        <button v-if="edit === 1" @click="editProfile()">Confirm</button>
-        <button v-if="edit === 1" @click="closeForm()">Cancle</button>
+            <button v-if="edit === 0" @click="openForm()">Edit</button>
+            <button v-if="edit === 1" @click="editProfile()">Confirm</button>
+            <button class="button-1" v-if="edit === 1" @click="closeForm()">Cancle</button>
+        </div>
     </div>
 </template>
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
 import AuthUser from '@/store/AuthUser'
+import swal from 'sweetalert'
     export default {
         components: {
             HeadBar
@@ -68,11 +72,12 @@ import AuthUser from '@/store/AuthUser'
                     address: this.form.address,
                     tell: this.form.tell,
                     balance_amount: this.profile.balance_amount,
-                    status: this.profile.status
+                    status: this.profile.status,
+                    role: this.profile.role
                 }
                 let res = await AuthUser.dispatch('editProfile',payload)
                 if(res.success){
-                    alert('edit complete')
+                    swal('Edit profile complete','please login again','success')
                     this.$router.push('/logout')
                 }
             }
@@ -81,5 +86,17 @@ import AuthUser from '@/store/AuthUser'
 </script>
 
 <style lang="scss" scoped>
-
+@import '@/assets/loginCss.scss';
+.button-1{
+    margin: 2rem;
+    margin-bottom: 1.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bolder;
+    color: #fff;
+    background: red;
+}
 </style>

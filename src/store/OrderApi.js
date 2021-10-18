@@ -42,7 +42,6 @@ export default new Vuex.Store({
       }
       //   try {
       // let headers = AuthService.getApiHeader()
-      console.log(body)
       let res = await Axios.post(url, body, headers)
       if (res.statusText === "Created") {
         return {
