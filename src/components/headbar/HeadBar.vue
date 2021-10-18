@@ -15,6 +15,7 @@
             <b-dropdown-item href="/manage-orders">order</b-dropdown-item>
             <b-dropdown-item href="/manage-veg">vegetables</b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item href="/manage-user" v-if="user.role === 'ADMIN'">Manage User</b-nav-item>
           <b-nav-item href="/setup">Set up</b-nav-item>
         </b-navbar-nav>
 

@@ -38,12 +38,14 @@ export default new Vuex.Store({
         name: payload.name,
         inventories: payload.inventories,
         price: payload.price,
-        total_sales: payload.total_sales
+        total_sales: payload.total_sales,
+        image_path:payload.image_path,
       }
       let res = await Axios.post(url, body, headers)
       if(res.statusText === 'Created'){
         return{
-          success: true
+          success: true,
+          'data':res.data
         }
       }
     },

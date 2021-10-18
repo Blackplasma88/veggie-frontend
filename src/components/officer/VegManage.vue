@@ -72,6 +72,7 @@
           <b-card>
             <ul>
               <li>
+                <img :src="row.item.image_path" alt="" width="210" height="180">
                   <h3>{{ row.item.name }}</h3>
                     <label for="">Name: {{ row.item.name }}</label><br> 
                     <label for="">ชื่อที่ต้องการแก้ไข : </label>
@@ -96,6 +97,7 @@
 <script>
 import ItemApi from "@/store/ItemApi";
 import AuthUser from "@/store/AuthUser";
+import Axios from 'axios'
 export default {
   data() {
     return {
@@ -136,6 +138,7 @@ export default {
       sortDirection: "asc",
       filter: null,
       filterOn: [],
+      image:'',
     };
   },
   computed: {
@@ -179,6 +182,7 @@ export default {
     await ItemApi.dispatch("fetchData");
     this.items = ItemApi.getters.data.data;
     this.totalRows = this.items.length;
+    this.image = this.items[0].image_path
   }
 };
 </script>
