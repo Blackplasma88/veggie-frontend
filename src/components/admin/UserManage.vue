@@ -66,7 +66,7 @@
           <b-button v-if="row.item.role !== 'ADMIN'" size="sm" @click="changeRole(row.item.id - 1)">Change</b-button>
         </template>
         <template #cell(ban)="row">
-          <b-button size="sm" @click="ban()">
+          <b-button size="sm" @click="ban(row.item.id - 1)">
             <b-button size="sm">Ban</b-button>
           </b-button>
         </template>
@@ -183,7 +183,7 @@ export default {
         }
         }
     },
-    ban(){
+    ban(index){
 
     }
   },

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ListVeg from '../views/vegetables/ListVeg.vue'
-import Info from '../views/management/Information.vue'
 import Cart from '../views/order/Cart.vue'
 import Payment from '../views/management/Payment.vue'
 import ListOrder from '../views/order/OrderStatus.vue'
@@ -30,11 +29,6 @@ const routes = [
     path: '/list-veg',
     name: 'ListVeg',
     component: ListVeg
-  },
-  {
-    path: '/item/:id',
-    name: 'Information',
-    component: Info
   },
   {
     path: '/orders',
