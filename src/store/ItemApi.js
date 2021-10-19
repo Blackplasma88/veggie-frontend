@@ -31,6 +31,10 @@ export default new Vuex.Store({
       let res = await Axios.get(api_endpoint + "/api/items",headers)
       commit('fetch', { res })
     },
+    async fetchDataInHome({ commit }) {
+      let res = await Axios.get(api_endpoint + "/api/items/home")
+      commit('fetch', { res })
+    },
     async addVeggie({commit},payload){
       let headers = AuthService.getApiHeader()
       let url = api_endpoint + '/api/items'

@@ -1,7 +1,8 @@
 <template>
-  <div class="container mt-5">
-      <h2>List Vegetables</h2>
-    <b-container fluid>
+  <div class="container mt-5 bgc">
+      <h1>List Vegetables</h1>
+    <div class="story">
+      <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
         <!-- tab filter -->
@@ -87,6 +88,7 @@
         </template>
       </b-table>
     </b-container>
+    </div>
   </div>
 </template>
 
@@ -234,3 +236,21 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.story{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
+</style>
