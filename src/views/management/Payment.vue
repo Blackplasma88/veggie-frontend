@@ -41,6 +41,10 @@ export default {
     };
   },
   async created() {
+    if (!AuthUser.getters.isAuthen) {
+        swal('Please login','','error')
+        this.$router.push("/login");
+    }
     this.id = parseInt(this.$route.params.id);
     var order = await OrderService.getOrderById(this.id);
     this.order = order;

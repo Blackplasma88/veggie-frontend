@@ -5,7 +5,7 @@
             <div class="container py-5">
                 <div class="row py-4">
                     <div class="col-lg-12 pt-5 text-center">
-                        <h1>Vegetables Marget</h1>
+                        <h1>Vegetables Marget Online</h1>
                         <button class="btn1 mt-3">Get Start</button>
                     </div>
                 </div>

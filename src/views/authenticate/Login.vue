@@ -44,11 +44,15 @@ export default {
         async login(){
             let res = await AuthUser.dispatch('login', this.form)
             if(res.success){
-                this.$router.push('/')
-                swal('login success','','success')
+                if(AuthUser.getters.user.status !== 'BAN'){
+                    this.$router.push('/')
+                    swal('login success','','success')
+                }else{
+                    swal('You got banned','','error')
+                    this.$router.push('/logout')
+                }
             }
             else{
-                // alert(res.message)
                 swal(res.message,'','warning')
             }
         }

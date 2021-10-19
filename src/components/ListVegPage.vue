@@ -222,10 +222,6 @@ export default {
     },
   },
   async created() {
-    if (!AuthUser.getters.isAuthen) {
-      alert("Restricted Area");
-      this.$router.push("/login");
-    }
     await ItemApi.dispatch("fetchData");
     this.items = ItemApi.getters.data.data;
     for (var i in this.items) {

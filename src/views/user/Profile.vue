@@ -62,6 +62,10 @@ import swal from 'sweetalert'
             }
         },
         async created(){
+            if (!AuthUser.getters.isAuthen) {
+        swal('Please login','','error')
+        this.$router.push("/login");
+            }
             this.profile = await AuthService.getUserById( AuthUser.getters.user.id )
         },
         methods:{
