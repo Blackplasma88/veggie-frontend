@@ -1,7 +1,8 @@
 <template>
   <div>
     <head-bar></head-bar>
-    <div>
+    <div class="story">
+      <div>
       <label for="data">Data : {{ order.data }}</label>
     </div>
     <div>
@@ -15,8 +16,8 @@
     </div>
 
     <b-button variant="success" @click="buy()"
-      >ยืนยันการชำระเงินชำระเงิน</b-button
-    >
+      >ยืนยันการชำระเงินชำระเงิน</b-button>
+    </div>
   </div>
 </template>
 
@@ -109,5 +110,20 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.story{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: rgb(10, 10, 10);
+  font-weight: bold;
+  border: 3px solid #000000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
 </style>

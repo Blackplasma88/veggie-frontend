@@ -20,7 +20,6 @@ export default {
         swal('Please login','','error')
         this.$router.push("/login");
     }
-    console.log(AuthUser.getters.user.status)
   }
 }
 </script>

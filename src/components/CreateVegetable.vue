@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="story">
     <h1>Create Veggie</h1>
       <div class="box">
         <label for="name">Name: </label><br />
@@ -13,7 +13,7 @@
       </div>
           <div>
                 <input type="file" @change="onFileSelected" />
-                <button @click="addVeggie()">ADD VEGGIE</button>
+                <b-button @click="addVeggie()">ADD VEGGIE</b-button>
           </div>
   </div>
 </template>
@@ -36,6 +36,9 @@ export default {
   },
   methods: {
     async addVeggie() {
+      if(this.form.name === "" && this.form.price === 0 && this.form.inventories === 0){
+        swal('Please fill data','','warning')
+      }else{
         let fd = new FormData();
         fd.append('img',this.image);
       let payload = {
@@ -54,6 +57,7 @@ export default {
           }else{
             this.upload(id);
           }
+      }
       }
     },
     onFileSelected(event) {
@@ -75,5 +79,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.story{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: rgb(10, 10, 10);
+  font-weight: bold;
+  border: 3px solid #000000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
 </style>

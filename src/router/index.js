@@ -16,7 +16,6 @@ import ManageUser from '../views/user/ManageUser.vue'
 import ManagementOrder from '../views/order/ManagementOrder.vue'
 import ManagementVeg from '../views/vegetables/ManagementVeg.vue'
 import ChangeStatusOrder from '../views/order/ChangeStatusOrder.vue'
-import ShowDataOrder from '../views/ShowDataOrder.vue'
 
 Vue.use(VueRouter)
 
@@ -100,11 +99,6 @@ const routes = [
     path: '/change-status/:id',
     name: 'ChangeStatusOrder',
     component: ChangeStatusOrder
-  },
-  {
-    path: '/data/:id',
-    name: 'ShowDataOrder',
-    component: ShowDataOrder
   },
 ]
 

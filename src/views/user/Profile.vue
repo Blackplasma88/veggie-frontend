@@ -1,7 +1,8 @@
 <template>
-    <div class="container">
+    <div>
         <head-bar></head-bar>
-        <div class="form-1">
+        <div class="container">
+        <div class="form-1 pic">
             <div>
                 <img :src="profile.image_path" alt="" width="210" height="180"><br>
                 <div>
@@ -17,7 +18,6 @@
                 <label v-if="edit === 0" for="address">Address: {{ profile.address }}</label>
                 <label v-if="edit === 1" for="address">Address: </label><br>
                 <input v-if="edit === 1" type="text" v-model="form.address" size="50">
-                <!-- <textarea v-if="edit === 1" name="address" id="" cols="30" rows="10" v-model="form.address"></textarea> -->
             </div>
             <div>
                 <label v-if="edit === 0" for="tell">Phone number: {{ profile.tell }}</label>
@@ -37,6 +37,7 @@
                 <button class="button-1" v-if="edit === 1" @click="closeForm()">Cancle</button>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -127,5 +128,9 @@ import swal from 'sweetalert'
     font-weight: bolder;
     color: #fff;
     background: red;
+}
+.pic{
+  border: 3px solid #000000;
+  color: rgb(10, 10, 10);
 }
 </style>
