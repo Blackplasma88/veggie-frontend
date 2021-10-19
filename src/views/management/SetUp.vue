@@ -25,6 +25,10 @@ import swal from 'sweetalert'
             }
         },
         created(){
+            if (!AuthUser.getters.isAuthen) {
+        swal('Please login','','error')
+        this.$router.push("/login");
+        }
             this.fetchData()
         },
         methods:{

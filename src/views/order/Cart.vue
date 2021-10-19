@@ -7,6 +7,7 @@
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
+import AuthUser from "@/store/AuthUser"
 import CartOrder from '@/components/CartOrder.vue'
 
 export default {
@@ -14,6 +15,12 @@ export default {
   components: {
     HeadBar,
     CartOrder
+  },
+  created(){
+      if (!AuthUser.getters.isAuthen) {
+        swal('Please login','','error')
+        this.$router.push("/login");
+    }
   }
 }
 </script>

@@ -5,17 +5,17 @@
         <b-navbar-brand href="/">LOGO</b-navbar-brand>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item href="/list-veg">List Vegetables</b-nav-item>
+            <b-nav-item v-if="isLogin === true" href="/list-veg">List Vegetables</b-nav-item>
             <b-nav-item href="/menu">Food menu</b-nav-item>
-            <b-nav-item-dropdown text="Order">
+            <b-nav-item-dropdown v-if="isLogin === true" text="Order">
               <b-dropdown-item href="/cart">Cart</b-dropdown-item>
               <b-dropdown-item href="/orders">Order Status</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-item-dropdown text="Management" v-if="user.role === 'OFFICER'">
+            <b-nav-item-dropdown text="Management" v-if="user.role === 'OFFICER' && isLogin === true">
               <b-dropdown-item href="/manage-orders">order</b-dropdown-item>
               <b-dropdown-item href="/manage-veg">vegetables</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-item href="/manage-user" v-if="user.role === 'ADMIN'">Manage User</b-nav-item>
+            <b-nav-item href="/manage-user" v-if="user.role === 'ADMIN' && isLogin === true">Manage User</b-nav-item>
             <!-- <b-nav-item v-if="isLogin === true" href="/setup">Prepaid</b-nav-item> -->
             <b-nav-item-dropdown v-if="isLogin === true" right text="Prepaid">
               <b-dropdown-item @click="prepaid(50)">50</b-dropdown-item>

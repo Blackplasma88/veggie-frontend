@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div id="app" class="main">
+    <div class="story">
+          <router-view/>
+    </div>
   </div>
 </template>
 
@@ -28,5 +30,16 @@
       margin: 0px 10px;
     }
   }
+}
+* {
+  box-sizing: border-box;
+}
+
+.main{
+    background: url(assets/images/bg-3.jpg)no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100%;
+    background-position: 50% 50%;
 }
 </style>
