@@ -6,7 +6,7 @@
                 <img :src="profile.image_path" alt="" width="210" height="180"><br>
                 <div>
                     <input v-if="edit === 1" type="file" @change="onFileSelected" />
-                    <b-button v-if="edit === 1" @click="upload(profile.id)">onfirm</b-button><br>
+                    <b-button v-if="edit === 1" @click="upload(profile.id)">Confirm</b-button><br>
                 </div>
                 <label for="name">Name : {{ profile.name }}</label>
             </div>
@@ -25,7 +25,7 @@
                 <input v-if="edit === 1" type="text" v-model="form.tell" size="10">
             </div>
             <div>
-                <label for="create">Created at : {{ profile.created_at }}</label>
+                <label for="create">Created at : {{ callTime(profile.created_at) }}</label>
             </div>
             <div>
                 <label for="balance">Balance : {{ profile.balance_amount }}</label>
@@ -46,6 +46,7 @@ import AuthUser from '@/store/AuthUser'
 import AuthService from '@/services/AuthService'
 import Axios from 'axios'
 import swal from 'sweetalert'
+import moment from 'moment'
     export default {
         components: {
             HeadBar
@@ -65,6 +66,9 @@ import swal from 'sweetalert'
             this.profile = await AuthService.getUserById( AuthUser.getters.user.id )
         },
         methods:{
+            callTime(time){
+                return moment(time).format('MMMM Do YYYY, h:mm:ss a')
+            },
             onFileSelected(event) {
                 this.image = event.target.files[0]
             },

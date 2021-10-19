@@ -36,7 +36,6 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <label v-if="isLogin === true" for="amount">{{ user.balance_amount }}</label>
   </div>
 </template>
 

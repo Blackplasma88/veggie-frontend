@@ -72,7 +72,7 @@
                     <label for="">Data: {{ row.item.data }}</label><br> 
                     <label for="">Amount: {{ row.item.amount }}</label><br>
                     <label >Status: {{ row.item.status }}</label><br>
-                    <label >Buy when: {{ row.item.created_at }}</label><br>
+                    <label >Buy when: {{ callTime(row.item.created_at) }}</label><br>
               </li>
             </ul>
           </b-card>
@@ -84,7 +84,8 @@
 
 <script>
 import AuthUser from '@/store/AuthUser'
-import OrderApi from "@/store/OrderApi";
+import OrderApi from "@/store/OrderApi"
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -136,6 +137,11 @@ export default {
     },
   },
   methods: {
+    callTime(){
+      for(let i=0;i< this.items.length;i++){
+        this.items[i].created_at = moment(this.items[i].created_at).format('MMMM Do YYYY, h:mm:ss a')
+      }
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
@@ -146,6 +152,7 @@ export default {
     }
   },
   async created() {
+    console.log('hello')
     await OrderApi.dispatch("fetchData");
     let tmp = OrderApi.getters.data.data;
     for(let i in tmp){
@@ -153,7 +160,8 @@ export default {
         this.items.push(tmp[i])
       }
     }
-    this.totalRows = this.items.length;
+    this.totalRows = this.items.length
+    this.callTime()
   }
 };
 </script>

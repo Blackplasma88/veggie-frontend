@@ -8,7 +8,7 @@
       <label for="amount">Balance amount : {{ order.amount }}</label>
     </div>
     <div>
-      <label for="create">Created at : {{ order.created_at }}</label>
+      <label for="create">Created at : {{ callTime(order.created_at) }}</label>
     </div>
     <div>
       <label for="status">Status : {{ order.status }}</label>
@@ -28,7 +28,8 @@ import ItemApi from "../../store/ItemApi";
 import ItemService from "../../services/ItemService";
 import OrderApi from "../../store/OrderApi";
 import AuthUser from '../../store/AuthUser'
-import swal from 'sweetalert';
+import swal from 'sweetalert'
+import moment from 'moment'
 export default {
   components: {
             HeadBar
@@ -46,6 +47,9 @@ export default {
     this.order = order;
   },
   methods: {
+    callTime(time){
+      return moment(time).format('MMMM Do YYYY, h:mm:ss a')
+    },
     async buy() {
       this.user = AuthUser.getters.user
       if (this.user.balance_amount >= this.order.amount) {

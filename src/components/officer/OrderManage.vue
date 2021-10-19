@@ -87,7 +87,8 @@
 
 <script>
 import AuthService from '@/services/AuthService'
-import OrderApi from "@/store/OrderApi";
+import OrderApi from "@/store/OrderApi"
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -140,6 +141,11 @@ export default {
     },
   },
   methods: {
+    callTime(){
+      for(let i=0;i< this.items.length;i++){
+        this.items[i].created_at = moment(this.items[i].created_at).format('MMMM Do YYYY, h:mm:ss a')
+      }
+    },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
       this.totalRows = filteredItems.length;
@@ -157,7 +163,8 @@ export default {
         this.items.push(tmp[i])
       }
     }
-    this.totalRows = this.items.length;
+    this.totalRows = this.items.length
+    this.callTime()
   }
 };
 </script>
