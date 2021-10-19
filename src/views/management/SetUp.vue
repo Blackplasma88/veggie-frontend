@@ -11,9 +11,9 @@
 
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
-import AuthUser from "../../store/AuthUser";
-import UserApi from '../../store/UserApi';
-import swal from 'sweetalert';
+import AuthUser from "../../store/AuthUser"
+import UserApi from '../../store/UserApi'
+import swal from 'sweetalert'
     export default {
         components: {
             HeadBar
