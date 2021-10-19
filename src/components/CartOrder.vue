@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-5">
-      <h1>Order in cart</h1>
+      
     <div class="story">
+      <h1>Order in cart</h1>
       <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
@@ -74,7 +75,7 @@
               <li>
                   <h4>{{ "Order Number "+ row.item.id }}</h4>
                     <label for="">Data: {{ row.item.data }}</label><br> 
-                    <label for="">Amount: {{ row.item.amount }}</label><br>
+                    <label for="">Amount: {{ row.item.amount }} บาท</label><br>
                     <label >Status: {{ row.item.status }}</label><br>
                     <label >Add when: {{ row.item.created_at }}</label><br>
               </li>
@@ -104,7 +105,7 @@ export default {
         },
         {
           key: "amount",
-          label: "Amount",
+          label: "Amount (บาท)",
           sortable: true,
           sortDirection: "desc",
         },
@@ -174,7 +175,7 @@ export default {
 <style scoped lang='scss'>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;

@@ -43,7 +43,7 @@ import OrderApi from "@/store/OrderApi";
 <style lang="scss" scoped>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: rgb(10, 10, 10);
   font-weight: bold;
   border: 3px solid #000000;

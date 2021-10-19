@@ -2,7 +2,7 @@
   <div class="header">
     <div class="container">
     <b-navbar>
-        <b-navbar-brand href="/">LOGO</b-navbar-brand>
+        <b-navbar-brand href="/">HOME</b-navbar-brand>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item v-if="isLogin === true" href="/list-veg">List Vegetables</b-nav-item>
@@ -25,12 +25,16 @@
             </b-nav-item-dropdown> 
           </b-navbar-nav>
 
-          <b-navbar-nav class="ml-auto" align="right">
+          <b-navbar-nav v-if="isLogin === true" class="ml-auto" align="right">
             <b-nav-item-dropdown right text="User">
-              <b-dropdown-item href="/profile" v-if="isLogin === true">Profile</b-dropdown-item>
-              <b-dropdown-item class="summary-1" href="/login" v-if="isLogin === false">Login</b-dropdown-item>
-              <b-dropdown-item class="summary-1" href="/register" v-if="isLogin === false">Register</b-dropdown-item>
-              <b-dropdown-item class="summary-1" href="/logout" v-if="isLogin === true">Logout</b-dropdown-item>
+              <b-dropdown-item href="/profile">Profile</b-dropdown-item>
+              <b-dropdown-item class="summary-1" href="/logout">Logout</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+            <b-navbar-nav v-if="isLogin === false" class="ml-auto" align="right">
+            <b-nav-item-dropdown right text="Auth">
+              <b-dropdown-item class="summary-1" href="/login">Login</b-dropdown-item>
+              <b-dropdown-item class="summary-1" href="/register">Register</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>

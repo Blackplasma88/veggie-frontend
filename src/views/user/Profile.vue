@@ -2,10 +2,11 @@
     <div>
         <head-bar></head-bar>
         <div class="container">
-        <div class="form-1 pic">
+        <div class="form-1 story">
             <div>
-                <img :src="profile.image_path" alt="" width="210" height="180"><br>
+                <img :src="profile.image_path" alt="" width="210" height="180">
                 <div>
+                    <br>
                     <input v-if="edit === 1" type="file" @change="onFileSelected" />
                     <b-button v-if="edit === 1" @click="upload(profile.id)">Confirm</b-button><br>
                 </div>
@@ -17,7 +18,7 @@
             <div>
                 <label v-if="edit === 0" for="address">Address: {{ profile.address }}</label>
                 <label v-if="edit === 1" for="address">Address: </label><br>
-                <input v-if="edit === 1" type="text" v-model="form.address" size="50">
+                <input v-if="edit === 1" type="text" v-model="form.address" size="30">
             </div>
             <div>
                 <label v-if="edit === 0" for="tell">Phone number: {{ profile.tell }}</label>
@@ -111,7 +112,7 @@ import moment from 'moment'
             fd.append('id',id);
             let res = await Axios.post(url,fd)
             if(res.status === 200){
-                alert('add veggie complete')
+                swal('Update success','','success')
                 location.reload()
             }
     }
@@ -133,8 +134,19 @@ import moment from 'moment'
     color: #fff;
     background: red;
 }
-.pic{
-  border: 3px solid #000000;
+.story{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: rgb(10, 10, 10);
+  font-weight: bold;
+  border: 3px solid #000000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
 }
 </style>

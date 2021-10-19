@@ -22,6 +22,7 @@
 import ItemApi from "@/store/ItemApi";
 import AuthService from '@/services/AuthService'
 import Axios from 'axios'
+import swal from 'sweetalert'
 export default {
   data() {
     return {
@@ -71,7 +72,7 @@ export default {
         fd.append('id',id);
         let res = await Axios.post(url,fd)
         if(res.status === 200){
-            alert('add veggie complete')
+            swal('Add success','','success')
             this.$router.push("/manage-veg")
         }
     }
@@ -82,7 +83,7 @@ export default {
 <style scoped>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: rgb(10, 10, 10);
   font-weight: bold;
   border: 3px solid #000000;

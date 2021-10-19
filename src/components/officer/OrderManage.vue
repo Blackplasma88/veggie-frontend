@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-5">
-      <h1>Order in cart</h1>
+      
     <div class="story">
+      <h1>Order in cart</h1>
       <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
@@ -175,7 +176,7 @@ export default {
 <style lang="scss" scoped>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;

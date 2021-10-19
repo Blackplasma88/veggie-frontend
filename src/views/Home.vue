@@ -6,7 +6,7 @@
                 <div class="row py-4">
                     <div class="col-lg-12 pt-5 text-center">
                         <h1>Vegetables Marget Online</h1>
-                        <button class="btn1 mt-3">Get Start</button>
+                        <button class="btn1 mt-3" @click="to()">Get Start</button>
                     </div>
                 </div>
             </div>
@@ -24,39 +24,39 @@
                     <div class="col-lg-3 text-center">
                         <div class="card border-0 bg-light">
                             <div class="card-body">
-                                <img :src="items[0].image_path" alt="" class="img-fluid">
+                                <img :src="items[0].image_path" alt="" class="img-fluid" width="300" height="300">
                             </div>    
                         </div>
                         <h5>Name: {{ items[0].name }}</h5>
-                        <h6>Price: {{ items[0].price }} Bath</h6>
+                        <h6>Price: {{ items[0].price }} บาท</h6>
                     </div>
                     <div class="col-lg-3 text-center">
                         <div class="card border-0 bg-light">
                             <div class="card-body">
-                                <img :src="items[1].image_path" alt="" class="img-fluid">
+                                <img :src="items[1].image_path" alt="" class="img-fluid" width="300" height="300">
                             </div>    
                         </div>
                         <h5>Name: {{ items[1].name }}</h5>
-                        <h6>Price: {{ items[1].price }} Bath</h6>
+                        <h6>Price: {{ items[1].price }} บาท</h6>
                     </div>
                     <div class="col-lg-3 text-center">
                         <div class="card border-0 bg-light">
                             <div class="card-body">
-                                <img :src="items[2].image_path" alt="" class="img-fluid">
+                                <img :src="items[2].image_path" alt="" class="img-fluid" width="300" height="300">
                             </div>    
                         </div>
                         <h5>Name: {{ items[2].name }}</h5>
-                        <h6>Price: {{ items[2].price }} Bath</h6>
+                        <h6>Price: {{ items[2].price }} บาท</h6>
                     </div>
-                    <!-- <div class="col-lg-3 text-center">
+                    <div class="col-lg-3 text-center">
                         <div class="card border-0 bg-light">
                             <div class="card-body">
-                                <img :src="items[4].image_path" alt="" class="img-fluid">
+                                <img :src="items[3].image_path" alt="" class="img-fluid" width="300" height="300">
                             </div>    
                         </div>
-                        <h5>Name: {{ items[4].name }}</h5>
-                        <h6>Price: {{ items[4].price }} Bath</h6>
-                    </div> -->
+                        <h5>Name: {{ items[3].name }}</h5>
+                        <h6>Price: {{ items[3].price }} บาท</h6>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 text-center m-auto">
@@ -71,10 +71,6 @@
 <script>
 import HeadBar from '@/components/headbar/HeadBar'
 import ItemApi from "@/store/ItemApi";
-import AuthService from '@/services/AuthService'
-import AuthUser from "../store/AuthUser";
-import OrderApi from "@/store/OrderApi";
-import swal from 'sweetalert';
     export default {
         components: {
             HeadBar,
@@ -87,12 +83,17 @@ import swal from 'sweetalert';
         async created(){
         await ItemApi.dispatch("fetchDataInHome");
         this.items = ItemApi.getters.data.data;
-        this.items.sort(function(a, b){return a.total_sales - b.total_sales});
+        this.items.sort(function(a, b){return b.total_sales - a.total_sales});
         let tmp = []
         for(var i=0;i<4;i++){
             tmp.push(this.items[i])
         }
         this.items = tmp;
+        },
+        methods:{
+            to(){
+                this.$router.push('/list-veg')
+            }
         }
     }
 </script>

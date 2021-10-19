@@ -1,13 +1,14 @@
 <template class='background'>
-  <div class="container">
+  <div>
       <head-bar></head-bar>
-      <form class="form-1" @submit.prevent="login">
+      <div class="container">
+      <form class="form-1 story" @submit.prevent="login">
           <h1>LOG IN</h1> 
           <div class="form-group row">
               <label for="staticEmail" class="col-sm-2 col-form-label">Email </label>
               <div class="col-sm-10">
                 <input class="form-control" id="staticEmail" v-model="form.email" 
-                    type="text" placeholder="email or Username " autocomplete="off">
+                    type="text" placeholder="email" autocomplete="off">
               </div>
           </div>
           <div class="form-group row">
@@ -21,6 +22,7 @@
               <button>Log in</button>
           </div>
       </form>
+  </div>
   </div>
 </template>
 
@@ -62,5 +64,19 @@ export default {
 
 <style scoped lang="scss">
 @import '@/assets/loginCss.scss';
-
+.story{
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
+  color: rgb(10, 10, 10);
+  font-weight: bold;
+  border: 3px solid #000000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+}
 </style>

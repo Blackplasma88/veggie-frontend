@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5 bgc">
-      <h1>List Vegetables</h1>
     <div class="story">
+      <h1>List Vegetables</h1>
       <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
@@ -72,8 +72,8 @@
                 <img :src="row.item.image_path" alt="" width="210" height="180">
                   <h4>{{ row.item.name }}</h4>
                     <label for="">Name: {{ row.item.name }}</label><br> 
-                    <label for="">Price: {{ row.item.price }}</label><br>
-                    <label >Inventories: {{ row.item.inventories }}</label><br><br>
+                    <label for="">Price: {{ row.item.price }} บาท</label><br>
+                    <label >Inventories: {{ row.item.inventories }} ขีด</label><br><br>
                     <div>
                       <button @click="decrease(row.index)">-</button>
                       <input type="text" v-model="v[row.index]"/>
@@ -111,19 +111,19 @@ export default {
         },
         {
           key: "price",
-          label: "price",
+          label: "price (บาท)",
           sortable: true,
           sortDirection: "desc",
         },
         {
           key: "inventories",
-          label: "inventories",
+          label: "inventories (ขีด)",
           sortable: true,
           sortDirection: "desc",
         },
         {
           key: "total_sales",
-          label: "total_sales",
+          label: "total_sales (ขีด)",
           sortable: true,
           sortDirection: "desc",
         },
@@ -236,7 +236,7 @@ export default {
 <style lang="scss" scoped>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;

@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-5">
-      <h1>List Vegetables</h1>
+      
     <div class="story">
+      <h1>List Vegetables</h1>
       <b-container fluid>
       <!-- User Interface controls -->
       <b-row>

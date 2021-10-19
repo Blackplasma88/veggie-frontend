@@ -6,7 +6,7 @@
       <label for="data">Data : {{ order.data }}</label>
     </div>
     <div>
-      <label for="amount">Balance amount : {{ order.amount }}</label>
+      <label for="amount">Balance amount : {{ order.amount }} บาท</label>
     </div>
     <div>
       <label for="create">Created at : {{ callTime(order.created_at) }}</label>
@@ -117,7 +117,7 @@ export default {
 <style scoped>
 .story{
   background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  background-color: rgba(0,0,0, 0.25); /* Black w/opacity/see-through */
   color: rgb(10, 10, 10);
   font-weight: bold;
   border: 3px solid #000000;
