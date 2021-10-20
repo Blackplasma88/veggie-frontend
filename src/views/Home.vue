@@ -107,6 +107,7 @@ import ItemApi from "@/store/ItemApi";
     background-position: 50% 50%;
 }
 .main h1{
+    color: black;
     font-size: 4rem;
     font-weight: 700;
 }

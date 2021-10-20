@@ -155,7 +155,7 @@ export default {
       this.$router.push({name : 'Payment',params:{ id }})
     },
     async acceptItem(order){
-      order.status = "กำลังจัดส่ง";
+      order.status = "รับสินค้าแล้ว";
       let payload = {
         id: order.id,
         order: order,

@@ -94,7 +94,7 @@
 
 <script>
 import UserApi from "@/store/UserApi"
-import AuthUser from '@/store/AuthUser'
+import AuthService from '@/services/AuthService'
 import swal from 'sweetalert'
 import moment from 'moment'
 export default {
@@ -183,11 +183,11 @@ export default {
             role: 'OFFICER',
             tell: this.items[index].tell,
             status:this.items[index].status
-        }
-        let res = await UserApi.dispatch("editData", payload);
-        if(res.success){
-            location.reload();
-        }
+          }
+            let res = await UserApi.dispatch("editData", payload);
+            if(res.success){
+              location.reload();
+            }
         }else if(this.items[index].role === 'OFFICER'){
             let payload = {
             id: this.items[index].id,
@@ -198,12 +198,12 @@ export default {
             role: 'CUSTOMER',
             tell: this.items[index].tell,
             status:this.items[index].status
-        };
-        let res = await UserApi.dispatch("editData", payload);
-          if(res.success){
+            }
+            let res = await UserApi.dispatch("editData", payload);
+            if(res.success){
               swal('Change role complete','','success')
               location.reload()
-          }
+            }
         }
     },
     async authorize(user,check){
@@ -230,6 +230,10 @@ export default {
     }
   },
   async created() {
+    if(AuthService.getUser().role !== 'ADMIN'){
+        swal('You can\'t access this','','error')
+        this.$router.push("/");
+    }
     await UserApi.dispatch('fetchData')
     this.items = UserApi.getters.data
     this.totalRows = this.items.length
